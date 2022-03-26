@@ -22,6 +22,10 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,4 +45,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }

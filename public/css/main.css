@@ -8,6 +8,7 @@ bottom: 0;
 left: 0;
 padding: 1rem;
 text-align: center;
+align-self:flex-end;
 }
 .catch:hover{
 background-image: url('wh2.png');

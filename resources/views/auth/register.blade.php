@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ asset('wh2.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('wh2.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('wh2.png') }}"> 
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,6 +16,25 @@
 
 	</head>
 	<body>
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Quiz Catch
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
+                        <li>Language</li>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                </div>
+            </div>
+        </nav>
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -30,7 +49,7 @@
 							<div class="text w-100">
 								<h2>Welcome to Register</h2>
 								<p>have account? Login</p>
-								<a href="{{route('login')}}" class="btn btn-white btn-outline-white">Login</a>
+								<a href="{{route('login',app()->getLocale())}}" class="btn btn-white btn-outline-white">Login</a>
 							</div>
 			      </div>
 						<div class="login-wrap p-4 p-lg-5">
@@ -45,22 +64,39 @@
 									</p>
 								</div>
 			      	</div>
-							<form action="#" class="signin-form">
+							<form action="{{route('register',app()->getLocale())}}" method="POST" class="signin-form">
+                                @csrf
 			      		<div class="form-group mb-3">
 			      			<label class="label" for="name">Name</label>
-			      			<input type="text" class="form-control" placeholder="Username" required>
+			      			<input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Username" required>
+                              @error('name')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                                @enderror
 			      		</div>
                           <div class="form-group mb-3">
                             <label class="label" for="name">Email</label>
-                            <input type="email" class="form-control" placeholder="Email" required>
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" required>
                         </div>
+
+                             @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                             @enderror
 		            <div class="form-group mb-3">
 		            	<label class="label" for="password">Password</label>
-		              <input type="password" class="form-control" placeholder="Password" required>
+		              <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
+                      @error('password')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
 		            </div>
                     <div class="form-group mb-3">
 		            	<label class="label" for="password">Confirm Password</label>
-		              <input type="password" class="form-control" placeholder="Confirm Password" required>
+		              <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
 		            </div>
 		            <div class="form-group">
 		            	<button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
@@ -90,7 +126,7 @@
             <section class="">
               <p class="d-flex justify-content-center align-items-center">
                 <span class="me-3">Create Quiz for free</span>
-                <a type="button" href="{{route('register')}}" class="btn btn-outline-light btn-rounded" >
+                <a type="button" href="{{route('register',app()->getLocale())}}" class="btn btn-outline-light btn-rounded" >
                   Sign up!
                 </a>
               </p>

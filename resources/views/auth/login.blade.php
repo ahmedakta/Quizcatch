@@ -1,6 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
+
+<head>
   	<title>Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,6 +13,25 @@
 
 	</head>
 	<body>
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Quiz Catch
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
+                        <li>Language</li>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                </div>
+            </div>
+        </nav>
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -28,7 +46,7 @@
 							<div class="text w-100">
 								<h2>Welcome to login</h2>
 								<p>Don't have an account?</p>
-								<a href="{{route('register')}}" class="btn btn-white btn-outline-white">Sign Up</a>
+								<a href="{{route('register',app()->getLocale())}}" class="btn btn-white btn-outline-white">Sign Up</a>
 							</div>
 			      </div>
 						<div class="login-wrap p-4 p-lg-5">
@@ -43,7 +61,7 @@
 									</p>
 								</div>
 			      	</div>
-                      <form method="POST" action="{{ route('login') }}">
+                      <form method="POST" action="{{ route('login',app()->getLocale()) }}">
                         @csrf
                         <div class="form-group mb-3">
 			      			<label class="label" for="name">Email</label>
@@ -93,7 +111,7 @@
             <section class="">
               <p class="d-flex justify-content-center align-items-center">
                 <span class="me-3">Create Quiz for free</span>
-                <a type="button" href="{{route('register')}}" class="btn btn-outline-light btn-rounded" >
+                <a type="button" href="{{route('register',app()->getLocale())}}" class="btn btn-outline-light btn-rounded" >
                   Sign up!
                 </a>
               </p>
@@ -111,9 +129,8 @@
   <script src="{{asset('loginpage/js/popper.js')}}"></script>
   <script src="{{asset('loginpage/js/bootstrap.min.js')}}"></script>
   <script src="{{asset('loginpage/js/main.js')}}"></script>
+</body>
 
-	</body>
-</html>
 
 
 

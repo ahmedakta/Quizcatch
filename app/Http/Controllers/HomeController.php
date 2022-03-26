@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\Profile;
+use App\Models\Quiz;
+use App\Models\Tournament;
 
 class HomeController extends Controller
 {
@@ -21,8 +25,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
+    {   
+        // dd($request);
+        $key = 0;
+        $quizzes = Quiz::all();
+        return view('home.home',['type'=>'asd'],compact('quizzes','key'));
+    }
+    public function try()
     {
-        return view('home');
+        return view('test');
     }
 }
