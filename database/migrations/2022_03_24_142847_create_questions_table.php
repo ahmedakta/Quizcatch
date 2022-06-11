@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quiz_id');
+            $table->unsignedInteger('quiz_id')->unsigned();
+            $table->string('image')->nullable();
             $table->text('title');
             $table->string('hint')->nullable();
             $table->text('explanation')->nullable();
             $table->string('imagepath')->nullable();
+            $table->foreign('quiz_id')->references('id')->on('quizzes');
             $table->timestamps();
             $table->softDeletes();
         });

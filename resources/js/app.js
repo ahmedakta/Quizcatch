@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+Vue.config.productionTip = false
 
 /**
  * The following block of code may be used to automatically register your
@@ -30,3 +31,33 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+import Echo from "laravel-echo"
+
+windeow.io = require('socket.io-client');
+
+window.Echo = new Echo({
+    broadcaster : 'socket.io',
+    host: window.location.hostname + ':6001'
+});
+
+// .Echo.join(`online`)
+//     .here((users) => {
+//         console.log(users);
+//     })
+//     .joining((user) => {
+//         console.log(user.name);
+//     })
+//     .leaving((user) => {
+//         console.log(user.name);
+//     })
+// .error((error) => {
+//         console.error(error);
+//     });
+
+$('#chat-text').keypress(function(e){
+
+console.log(e.which);
+
+}); // end of press
+

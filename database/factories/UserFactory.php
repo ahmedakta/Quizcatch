@@ -25,6 +25,115 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+    
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+}
+
+
+// Post Factory 
+
+
+
+class PostFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'user_id' => 1,
+            'content' => $this->faker->sentences(10,true),
+            'created_at' => now(),
+            'updated_at' =>  now(), // password
+        ];
+    }
+    
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+}
+class QuizFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'user_id' => 1,
+            'title' => $this->faker->sentence,
+            'invite_code' => 1234,
+            'to_be_continued' => 5,
+            'explanation' => $this->faker->sentences(10,true),
+            'started_at' => now(),
+            'stopped_at' => now(),
+            'created_at' => now(),
+            'updated_at' =>  now(), // password
+        ];
+    }
+    
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+}
+
+class QuestionFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'quiz_id' => 1,
+            'title' => $this->faker->sentence,
+            'explanation' =>$this->faker->sentences(10,true),
+
+        ];
+    }
+    
 
     /**
      * Indicate that the model's email address should be unverified.

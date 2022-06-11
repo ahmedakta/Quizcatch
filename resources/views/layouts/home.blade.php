@@ -6,7 +6,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>quiz catch</title>
         <link rel="shortcut icon" href="{{ asset('wh2.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('wh2.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,7 +76,11 @@
     
         </head>
 <body>
-    		
+    {{-- <style>
+        input[type="file"] {
+       display: none;
+     }
+     </style> --}}
 	<div class="fh5co-loader"></div>
 	
 	<div id="page">
@@ -99,19 +102,10 @@
 									<li><a href="{{url('tr/home')}}">Turkish</a></li>
 								</ul>
 							</li>
-							<li class="has-dropdown">
-								<a href="blog.html">Quiz</a>
-								<ul class="dropdown">
-									<li><a href="#">All Quizes</a></li>
-									<li><a href="#">My Quizes</a></li>
-									<li><a href="#">Tooked Quizes</a></li>
-								</ul>
-							</li>
-							<li><a href="{{asset('homepage/about.html')}}">About</a></li>
-							<li><a href="{{asset('homepage/contact.html')}}">Contact</a></li>
+							<li><a href="{{route('about')}}">About</a></li>
                             @if (Route::has('login'))
                                 @auth
-                                <li class="btn-cta has-dropdown"><a href="{{route('user.profile',Auth::user()->name)}}"><span>{{Auth::user()->name}}</span></a>
+                                <li class="btn-cta has-dropdown"><a href="{{route('user.profile',Auth::user()->user_name)}}"><span>{{Auth::user()->name}}</span></a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                   document.getElementById('logout-form').submit();">
@@ -162,7 +156,6 @@
 	<script src="{{asset('homepage/js/magnific-popup-options.js')}}"></script>
 	<!-- Main -->
 	<script src="{{asset('homepage/js/main.js')}}"></script>
-
     <main class="py-4">
         @yield('home')
     </main>
@@ -173,7 +166,7 @@
             <div class="row copyright">
                 <div class="col-md-12 text-center">
                     <p>
-                        <small class="block">&copy; 2022 AHMED AKTA</small> 
+                        <small class="block">&copy; 2022 AKTA</small> 
                     </p>
                     <p>
                         <ul class="fh5co-social-icons">
@@ -187,4 +180,7 @@
             </div>
         </div>
     </footer>
+    <script>
+
+    </script>
 </section>

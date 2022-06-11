@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('users_profile', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->unsigned();
-            $table->string('phone_number');
-            $table->string('about');
-            $table->string('gender');
-            $table->date('date_of_birth');
-            $table->string('education');
+            $table->string('phone_number')->nullable();
+            $table->string('about')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('photo')->default('media/quizcatchAvatar.svg');
+            $table->date('date_of_birth')->nullable();
+            $table->string('education')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

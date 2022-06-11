@@ -56,8 +56,8 @@
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
-										<a href="https://www.linkedin.com/in/ahmet-akta/" class="social-icon d-flex align-items-center justify-content-center"><i class="fa fa-linkedin" aria-hidden="true"></i> </a>
-										<a href="https://twitter.com/ahmd_akta" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter" ></span></a>
+										<a href="https://www.linkedin.com/in/ahmet-akta/" class="social-icon d-flex align-items-center justify-content-center"  target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i> </a>
+										<a href="https://twitter.com/ahmd_akta" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-twitter" ></span></a>
 									</p>
 								</div>
 			      	</div>
@@ -94,7 +94,7 @@
 										</label>
 									</div>
 									<div class="w-50 text-md-right">
-										<a href="#">Forgot Password</a>
+										<a href="{{route('password.request')}}">Forgot Password</a>
 									</div>
 		            </div>
 		          </form>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,6 +26,20 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Profile');
     }
+    public function quizzes()
+    {
+    	return $this->hasMany('App\Models\Quiz');
+    }
+    public function posts()
+    {
+    	return $this->hasMany('App\Models\Post');
+    }
+    public function likes(){
+        return $this->hasMany('App\Models\Like');
+    }
+    public function saves(){
+        return $this->hasMany('App\Models\Save');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,4 +60,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function isOnline(){
+        return Cache::has('user-is-online-' . $this->id); // this just return true or false about online status. with current user id .
+    }
 }

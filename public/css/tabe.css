@@ -1,0 +1,235 @@
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    z-index: 2;
+    color: #fff;
+    background-color: #f95959;
+    border-color: #fafafa;
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color:  #f95959;
+    border-color: #ffffff;
+}
+
+body {
+    background-color: #eee
+}
+
+.card {
+    background-color: #fff;
+    width: 280px;
+    border-radius: 33px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 2rem !important
+}
+
+.top-container {
+    display: flex;
+    align-items: center
+}
+
+.profile-image {
+    border-radius: 10px;
+    border: 2px solid #f95959
+}
+
+.name {
+    font-size: 15px;
+    font-weight: bold;
+    color: #272727;
+    position: relative;
+    top: 8px
+}
+
+.mail {
+    font-size: 14px;
+    color: grey;
+    position: relative;
+    top: 2px
+}
+
+.middle-container {
+    background-color: #eee;
+    border-radius: 12px
+}
+
+.middle-container:hover {
+    border: 1px solid #f95959
+}
+
+.dollar-div {
+    background-color: #f95959;
+    padding: 12px;
+    border-radius: 10px
+}
+
+.round-div {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center
+}
+
+.dollar {
+    font-size: 16px !important;
+    color: #f95959 !important;
+    font-weight: bold !important
+}
+
+.current-balance {
+    font-size: 15px;
+    color: #272727;
+    font-weight: bold
+}
+
+.amount {
+    color: #f95959;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.dollar-sign {
+    font-size: 16px;
+    color: #272727;
+    font-weight: bold
+}
+
+.recent-border {
+    border-left: 2px solid #f95959;
+    display: flex;
+    align-items: center
+}
+
+.recent-border:hover {
+    border-bottom: 1px solid #dee2e6 !important
+}
+
+.recent-orders {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f95959;
+    margin-left: 2px
+}
+
+.wishlist {
+    font-size: 16px;
+    font-weight: 700;
+    color: #272727
+}
+
+.wishlist-border:hover {
+    border-bottom: 1px solid #dee2e6 !important
+}
+
+.fashion-studio {
+    font-size: 16px;
+    font-weight: 700;
+    color: #272727
+}
+
+.fashion-studio-border:hover {
+    border-bottom: 1px solid #dee2e6 !important
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  /* Switch Flat
+==========================*/
+.switch-flat {
+	padding: 0;
+	background: #FFF;
+	background-image: none;
+}
+.switch-flat .switch-label {
+	background: #FFF;
+	border: solid 2px #eceeef;
+	box-shadow: none;
+}
+.switch-flat .switch-label:after {
+	color: #0088cc;
+}
+.switch-flat .switch-handle {
+	top: 6px;
+	left: 6px;
+	background: #dadada;
+	width: 22px;
+	height: 22px;
+	box-shadow: none;
+}
+.switch-flat .switch-handle:before {
+	background: #eceeef;
+}
+.switch-flat .switch-input:checked ~ .switch-label {
+	background: #FFF;
+	border-color: #0088cc;
+}
+.switch-flat .switch-input:checked ~ .switch-handle {
+	left: 72px;
+	background: #0088cc;
+	box-shadow: none;
+}
+.media-body{
+    border-radius:25px;
+}

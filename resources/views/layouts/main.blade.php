@@ -1,24 +1,24 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+  {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
 	<head>
         <meta charset="utf-8">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>quiz catch</title>
-        <link  type="text/css" href="{{asset('css/ap.css')}}" rel="stylesheet">
         <link rel="shortcut icon" href="{{ asset('wh2.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('wh2.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
         <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
         <meta name="author" content="FreeHTML5.co" />
+            <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
         {{--  --}}
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}"></script>
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -75,10 +75,10 @@
         <!--[if lt IE 9]>
         <script src="js/respond.min.js"></script>
         <![endif]-->
-    
+        <link  type="text/css" href="{{asset('css/tabe.css')}}" rel="stylesheet">
+        <link  type="text/css" href="{{asset('css/post.css')}}" rel="stylesheet">
         </head>
 <body>
-    		
 	<div class="fh5co-loader"></div>
 	
 	<div id="page">
@@ -91,28 +91,19 @@
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
-							<li class="active"><a href="index.html">Home</a></li>
+							<li class="active"><a href="{{route('home')}}">Home</a></li>
                             <li class="has-dropdown">
-								<a href="#">Language</a>
+								<a >Language</a>
 								<ul class="dropdown">
 									<li><a href="{{url('ar/home')}}">Arabic</a></li>
 									<li><a href="{{url('en/home')}}">English</a></li>
 									<li><a href="{{url('tr/home')}}">Turkish</a></li>
 								</ul>
 							</li>
-							<li class="has-dropdown">
-								<a href="blog.html">Quiz</a>
-								<ul class="dropdown">
-									<li><a href="#">All Quizes</a></li>
-									<li><a href="#">My Quizes</a></li>
-									<li><a href="#">Tooked Quizes</a></li>
-								</ul>
-							</li>
-							<li><a href="{{asset('homepage/about.html')}}">About</a></li>
-							<li><a href="{{asset('homepage/contact.html')}}">Contact</a></li>
+							<li><a href="{{route('about')}}">About</a></li>
                             @if (Route::has('login'))
                                 @auth
-                                <li class="btn-cta has-dropdown"><a href="{{route('user.profile',Auth::user()->name)}}"><span>{{Auth::user()->name}}</span></a>
+                                <li class="btn-cta has-dropdown"><a href="{{route('user.profile',Auth::user()->user_name)}}"><span>{{Auth::user()->name}}</span></a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                   document.getElementById('logout-form').submit();">
@@ -173,13 +164,31 @@
 					<div class="col-4">
                         <div class="list-group" id="list-tab" role="tablist">
                             <a
+                              class="list-group-item list-group-item-action tab-pane {{ $key==9 ? 'active' : ''}}"
+                              id="list-home-list"
+                              data-mdb-toggle="list"
+                              href="{{route('messages.index')}}"
+                              role="tab"
+                              aria-controls="list-home"
+                              ><i class="fa fa-comment"></i> Messages</a
+                            >
+                            <a
+                              class="list-group-item list-group-item-action tab-pane {{ $key==9 ? 'active' : ''}}"
+                              id="list-home-list"
+                              data-mdb-toggle="list"
+                              href="{{route('messages.index')}}"
+                              role="tab"
+                              aria-controls="list-home"
+                              ><i class="fa fa-bell"></i> Notifications</a
+                            >
+                            <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==0 ? 'active' : ''}}"
                               id="list-home-list"
                               data-mdb-toggle="list"
                               href="{{route('home')}}"
                               role="tab"
                               aria-controls="list-home"
-                              >Quizzes</a
+                              ><i class="fa fa-question" aria-hidden="true"></i>  Quizzes</a
                             >
                             <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==1 ? 'active' : ''}}"
@@ -188,8 +197,28 @@
                               href="{{route('home.posts')}}"
                               role="tab"
                               aria-controls="list-profile"
-                              >Posts</a
+                              ><i class="fa fa-pencil"></i> Posts</a
                             >
+                            @if ($active_tabs != null)
+                            <a
+                            class="list-group-item list-group-item-action tab-pane {{ $key==5 ? 'active' : ''}}"
+                            id="list-profile-list"
+                            data-mdb-toggle="list"
+                            href="{{route('saved.posts',['user' => $user->name])}}"
+                            role="tab"
+                            aria-controls="list-profile"
+                            ><i class="fa fa-bookmark"></i> Saved</a
+                          >
+                            <a
+                            class="list-group-item list-group-item-action tab-pane {{ $key==4 ? 'active' : ''}}"
+                            id="list-profile-list"
+                            data-mdb-toggle="list"
+                            href="{{route('private.posts',['user' => $user->name])}}"
+                            role="tab"
+                            aria-controls="list-profile"
+                            ><i class="fa fa-lock"></i> Private</a
+                          >
+                            @endif
                             <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==2 ? 'active' : ''}}"
                               id="list-messages-list"
@@ -197,18 +226,51 @@
                               href="{{route('home.tournaments')}}"
                               role="tab"
                               aria-controls="list-messages"
-                              >Tournaments</a
+                              ><i class="fa fa-trophy" aria-hidden="true"></i> Tournaments</a
                             >
                             <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==3 ? 'active' : ''}}"
                               id="list-settings-list"
                               data-mdb-toggle="list"
-                              href="{{route('user.profile',Auth::user()->name)}}"
+                              href="{{route('user.profile',Auth::user()->user_name)}}"
                               role="tab"
                               aria-controls="list-settings"
-                              >Profile</a
+                              ><i class="fa fa-user"></i> Profile</a
                             >
                           </div>
+                        {{-- under tabs --}}
+                        <div class="container d-flex justify-content-center mt-5">
+                          <div class="card" >
+                            @if ($user->profile == null)
+                            <div class="top-container"> <img src="{{asset('media/quizcatchAvatar.svg')}}" class="img-fluid profile-image" width="70">
+                            @else
+                              <div class="top-container"> <img src="{{asset($user->profile->photo)}}" class="img-fluid profile-image" width="70">
+                            @endif
+                                  <div class="ml-3" style="margin-left: 10px">
+                                      <h5 class="name">{{$user->name}}</h5>
+                                      <p class="mail">{{$user->email}}</p>
+                                  </div>
+                              </div>
+                              <div class="middle-container d-flex justify-content-between align-items-center mt-3 p-2">
+                                  <div class="d-flex flex-column"> <span class="current-balance">Quiz Count</span> <span class="amount">{{$quiz_count}}</span> </div>
+                              </div>
+                              <div class="wishlist-border pt-2"> <span class="wishlist">2 Messages</span> </div>
+                              <div class="wishlist-border pt-2"> <span class="wishlist">
+                                @if($user->profile->education != null)
+                                <i class="fa fa-graduation-cap"></i>  {{$profile->education}}
+                                @endif
+                               </span> </div>
+                              <div class="recent-border mt-4"> <span class="recent-orders">
+                                @if($user->isOnline())
+                                <i class="text-success"><i class="fa fa-circle"></i> ONLINE</i>
+                               @else
+                                <i class="text-muted"><i class="fa fa-circle"></i> OFFLINE</i>
+                               @endif
+                              </span></div>
+                          </div>
+                      </div>
+
+                         {{-- /under tabs --}}
 
 					</div>
 					<div class="col-8">
@@ -242,28 +304,71 @@
             <div class="profile-content">
                 <div class="row ">
                     {{-- starts right nav --}}   	
-					<div class="panel">
-						<form>
-							<textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area"></textarea>
-						</form>
-						<footer class="panel-footer">
-							<button class="btn btn-primary pull-right">Post</button>
+          @if($key==0)
+					<div class="panel" style="margin-left:15px">
+             
+							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-quizzes')}}"  style=" margin : 15px" >My Quizzes</a>
+							<a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.create')}}" style=" margin : 15px">Create</a>
+              <form action="#" method="GET">
+                <button class="btn btn-light" type="submit" style="margin: 15px;"><i class="fa fa-search"></i></button>
+                <div class="input-group pull-left">
+                  <input type="text" name="search" class="form-control" placeholder="Search"  style=" margin : 15px" value="{{request('search') }}" />
+                </form>
+              </div>
+              {{-- start show Page --}}
+             
+              {{-- end Show page --}}
 							<ul class="nav nav-pills">
-								<li>
-									<a href="#"><i class="fa fa-map-marker"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-camera"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class=" fa fa-film"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-microphone"></i></a>
-								</li>
+						
 							</ul>
-						</footer>
-					</div>	
+					</div>
+          @elseif($key == 1)	
+          <div class="panel" style="margin-left:15px;">
+						<form action="{{route('post.store')}}" method="POST" enctype="multipart/form-data">
+              @csrf
+							<input placeholder="Post Now" rows="2" class="form-control input-lg p-text-area " name="content" id="mytextarea" type="textarea" required>
+              {{-- <a  type="submit" >Post</a> --}}
+              <button class="btn btn-primary pull-right" type="submit" style="margin: 10px">Post</button>
+              <style>
+                 input[type="file"] {
+                display: none;
+              }
+              </style>
+                <ul class="nav nav-pills" style="margin: 10px">
+                  <li>
+                      <label style="color:#f95959" >
+                        <i class="fa fa-camera" style="margin-top: 15px"></i>
+                        <input name="image" class="custom-file-input" type="file" accept="image/*">
+                      </label>
+                  </li>
+                  <li>
+                      <label style="color:#f95959" >
+                        <i class="fa fa-video-camera" style="margin: 15px"></i>
+                        <input name="video" class="custom-file-input" type="file"  accept="video/*" controls preload>
+                      </label>
+                  </li>
+                  <li>
+                    <a href=""><i class="fa fa-question" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                      <select name="private" id="" style="margin-top: 15px; border:0px; background-color:transparent">
+                        <option value="0">Public</option>
+                        <option value="1">Private</option>
+                      </select>                    
+                  </li>
+                  
+                </ul>
+						</form>
+					</div>
+          @elseif($key == 2)
+          <div class="panel" style="margin-left:15px">
+							<button class="btn btn-primary pull-right">Make</button>
+							<ul class="nav nav-pills">
+                  <li>  Tournaments</li>
+							</ul>
+					</div>
+          @endif
+
 						   {{-- Start Post Page --}}
                         <main class="py-4">
                             @yield('main')
@@ -275,8 +380,6 @@
 		</div>
 	</div>
 </div> 
-
-
 </body>
 <section class="footer">
     <footer id="fh5co-footer" role="contentinfo">
@@ -284,7 +387,7 @@
             <div class="row copyright">
                 <div class="col-md-12 text-center">
                     <p>
-                        <small class="block">&copy; 2022 AHMED AKTA</small> 
+                        <small class="block" title="Ahmet AKTA">&copy; 2022 AKTA</small> 
                     </p>
                     <p>
                         <ul class="fh5co-social-icons">
@@ -298,4 +401,13 @@
             </div>
         </div>
     </footer>
+    <script>
+//       tinymce.init({
+//   selector: "#mytextarea",
+//   plugins: "emoticons autoresize",
+//   toolbar: "emoticons",
+//   toolbar_location: "bottom",
+
+// });
+    </script>
 </section>
