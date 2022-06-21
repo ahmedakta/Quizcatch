@@ -156,7 +156,7 @@ class QuizController extends Controller
      */
     public function edit($id)
     {
-        //
+        ///
     }
     public function submitQuiz(Request $request)
     {
@@ -220,7 +220,7 @@ class QuizController extends Controller
         $id = Auth::user()->id;
         $quiz_count = Quiz::where('user_id',$id)->get()->count();
         $quizzes = Quiz::where('user_id',$id)->with('result')->get();
-        
+
         $profile =Profile::where('user_id',$id)->first();
         $user = User::find($id);
         // $results = Result::where('user_id',$user->id)->get();
