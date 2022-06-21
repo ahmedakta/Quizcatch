@@ -63,6 +63,35 @@
             <label for="mobile"><h4>Option 4</h4></label>
             <input type="textarea" class="form-control" name="option_4" required>
         </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <h3>Select correct option</h3>
+                <div class="form-check">
+                    <input class="form-check-input" class="form-control" type="radio" name="iscorrect" value="0" checked>
+                    <label for="mobile">
+                      Option #1
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="iscorrect" value="1">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Option #2
+                    </label>
+                </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="iscorrect" value="2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Option #3
+                    </label>
+                </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="iscorrect" value="3">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                       Option #4
+                    </label>
+                </div>
+            </div>
+        </div>
         </div>
         <div class="form-group">
             <div class="col-xs-6">

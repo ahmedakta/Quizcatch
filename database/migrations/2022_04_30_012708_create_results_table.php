@@ -14,8 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('results', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->unsignedInteger('user_id')->unsigned();
+            $table->unsignedInteger('quiz_id')->unsigned()->unique();
+            $table->integer('result');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
         });
     }
 

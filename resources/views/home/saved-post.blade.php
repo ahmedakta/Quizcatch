@@ -60,7 +60,7 @@
 											<div class="media g-mb-30 media-comment">
 												<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
 												  <div class="g-mb-15">
-													 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset('media/photo.jpeg')}}" alt="Image Description">
+													 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset($post->user->profile->photo)}}" alt="Image Description">
 													 <div class="dropdown pull-right">
 														<i class="fa fa-bookmark"></i> {{$post->saves->where('post_id', $post->id)->first()->created_at->diffForHumans()}}
 													  </div>

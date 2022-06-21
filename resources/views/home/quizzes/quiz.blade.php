@@ -3,6 +3,7 @@
 
 @if (count($questions)>0)
 @foreach ($questions as $item)
+
 {{-- <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30" style=" margin:auto;">
     @if ($item->image != null)
 				<img class="card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="height: 230px; width:350px; margin-bottom:10px">
@@ -25,71 +26,50 @@
 				<img class="card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="height: 230px; width:350px; margin-bottom:10px">
                 @endif
                   <pre>
-{{$item->title}}
-
+                      {{$item->title}}
                   </pre>
              </div><!--.panel-heading-->
 
-<div class = "panel-body">
+      <div class = "panel-body">
            </div>
-<ul class = "list-group">
-    <li class = "list-group-item">
-
-            @foreach ($item->options()->get() as $item)
-            <input type="checkbox" id="checkbox" />
-            <label for="checkbox">
-                {{$item->option_text}}
-            </label>
-            <br>
-            @endforeach
-    </li>
-   </ul>
-                {{-- <div class="panel-footer">
-                    <div class="row">
-    <div class="funkyradio">
-        <div class="funkyradio-default">
-            <input type="radio" name="radio" id="radio1" />
-            <label for="radio1">First Option default</label>
-        </div>
-        <div class="funkyradio-primary">
-            <input type="radio" name="radio" id="radio2" checked/>
-            <label for="radio2">Second Option primary</label>
-        </div>
-        <div class="funkyradio-success">
-            <input type="radio" name="radio" id="radio3" />
-            <label for="radio3">Third Option success</label>
-        </div>
-        <div class="funkyradio-danger">
-            <input type="radio" name="radio" id="radio4" />
-            <label for="radio4">Fourth Option danger</label>
-        </div>
-        <div class="funkyradio-warning">
-            <input type="radio" name="radio" id="radio5" />
-            <label for="radio5">Fifth Option warning</label>
-        </div>
-        <div class="funkyradio-info">
-            <input type="radio" name="radio" id="radio6" />
-            <label for="radio6">Sixth Option info</label>
-        </div>
-    </div>
-
-                    </div>
-                </div> --}}
-        </div>
-</div>
-</div>
-@endforeach
-<li class = "list-group-item">
-    <a class="btn btn-primary" href="#">SUBMIT</a>
-</li>
-<script>
-
-</script>
-@else
-<div class="alert alert-danger" role="alert">
-    Quiz Dont Have Questions.
-  </div>
-@endif
+           <form action="{{route('quiz.submit',['quiz_id'=>$item->quiz_id])}}" method="POST">
+             @csrf
+            <ul class = "list-group">
+              <li class = "list-group-item">
+                {{-- @php
+                    $options_list = array($item->options());
+                @endphp
+                @foreach($options_list as $options_list)
+                <li>
+                  <input type="checkbox"  name= "selected[]"  value= {{ 
+                         $options_list }}>
+                  <label>
+                  <!-- some code here -->
+                  </label>
+                </li>
+                @endforeach --}}
+                      @foreach ($item->options()->get() as $option)
+                      <input type="checkbox" id="checkbox" name="selected[]" value="{{$option->id}}" />
+                      <label for="checkbox">
+                          {{$option->option_text}}
+                      </label>
+                      <br>
+                      @endforeach
+              </li>
+             </ul>
+                  </div>
+          </div>
+          </div>
+          @endforeach
+          <li class = "list-group-item">
+            <button id="submitQuiz" type="submit" class="form-control btn btn-primary submit px-3">Submit</button>
+          </li>
+           </form>
+          @else
+          <div class="alert alert-danger" role="alert">
+              Quiz Dont Have Questions.
+            </div>
+          @endif
 
 
   <script>
@@ -101,12 +81,13 @@
         totalSecs++;
         $("#timer").text(currentMinutes + ":" + currentSeconds);
         setTimeout('incTimer()', 1000);
+
     }
          $(document).ready(function() {
              setTimeout(myFunction, 3000);
          });
          function myFunction() {
-             window.location.href = '/home';
+            //  window.location.href = '/home';
          }
     totalSecs = 0;
     $(document).ready(function() {

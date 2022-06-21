@@ -55,7 +55,7 @@ class QuestionController extends Controller
     }
     public function store(Request $request)
     {
-      
+
         // dd($request->all());
         if($request->has('image')){
         //     $request->validate([
@@ -73,6 +73,7 @@ class QuestionController extends Controller
             ]);
             $question->save();
             // dd($question->id);
+
             $options_data = [
                 ["question_id"=>$question->id,"option_text" => $request['option_1']],
                 ["question_id"=>$question->id,"option_text" => $request['option_2']],
@@ -91,15 +92,20 @@ class QuestionController extends Controller
             $data['quiz_id'] == $request->id;
             $question = new Question();
             $question->fill($data);
+
             $question->save();
             $options_data = [
-                ["question_id"=>$question->id,"option_text" => $request['option_1']],
-                ["question_id"=>$question->id,"option_text" => $request['option_2']],
-                ["question_id"=>$question->id,"option_text" => $request['option_3']],
-                ["question_id"=>$question->id,"option_text" => $request['option_4']],
+                ["question_id"=>$question->id,"option_text" => $request['option_1'],"iscorrect"=>0],
+                ["question_id"=>$question->id,"option_text" => $request['option_2'],"iscorrect"=>0],
+                ["question_id"=>$question->id,"option_text" => $request['option_3'],"iscorrect"=>0],
+                ["question_id"=>$question->id,"option_text" => $request['option_4'],"iscorrect"=>0],
             ];
+            // $question->request['iscorrect'] == 1;
             $option = new Option();
+            $options_data[$request->iscorrect]['iscorrect'] = 1;
+            // dd($question->options()->find($request->iscorrect));
             $option->insert($options_data);
+            // dd($question->options()->find($request->iscorrect));
         }
         return redirect()->back();
     }

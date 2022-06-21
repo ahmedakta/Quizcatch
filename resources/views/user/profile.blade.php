@@ -95,6 +95,8 @@
               <h4>Gender : {{$user->profile->gender}}</h4>
               <h4>Birth Date : {{$user->profile->date_of_birth}}</h4>
               <h4>Phone Number : {{$user->profile->phone_number}}</h4>
+              <h4>Quiz Count : {{$user->quizzes->count()}}</h4>
+              <h4>Posts Count : {{$user->posts->count()}}</h4>
               <hr class="short br-lighter">
               <h6>Education</h6>
 

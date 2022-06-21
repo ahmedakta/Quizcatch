@@ -60,7 +60,7 @@
 											<div class="media g-mb-30 media-comment">
 												<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
 												  <div class="g-mb-15">
-													 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset('media/photo.jpeg')}}" alt="Image Description">
+													 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset($post->user->profile->photo)}}" alt="Image Description">
 													 <div class="pull-right">
 														<form>
 															<a href="#" id="isSave" data-id="{{$post->id}}" type="submit" class="save fa fa-bookmark" style="margin-right:20px;"> Save</a>

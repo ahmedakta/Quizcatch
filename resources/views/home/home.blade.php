@@ -49,7 +49,9 @@
 								<a href="{{route('quiz.show',['quiz_slug'=>$quiz->slug])}}">
 								  <div class="panel-body">
 									@if ($quiz->image != null)
-									<img src="{{URL::asset($quiz->image)}}" style="height: 130px; width:150px; margin-bottom:10px;">
+									<img src="{{URL::asset($quiz->image)}}" style="height: 130px; width:150px; margin:10px;" class="pull-left">
+									@else
+									<img src="{{URL::asset('media/quiz.jpg')}}" style="height: 130px; width:150px; margin:10px;" class="pull-left">
 									@endif
 									<div class="g-mb-15 " style="margin: 15px">
 										<h3>{{$quiz->title}}</h3>

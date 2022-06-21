@@ -30,6 +30,10 @@ class User extends Authenticatable
     {
     	return $this->hasMany('App\Models\Quiz');
     }
+    public function results()
+    {
+    	return $this->hasMany('App\Models\Result');
+    }
     public function posts()
     {
     	return $this->hasMany('App\Models\Post');

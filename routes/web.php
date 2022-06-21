@@ -49,10 +49,12 @@ Route::post('like', [App\Http\Controllers\PostController::class, 'postLikePost']
 Route::get('tournaments', [App\Http\Controllers\TournamentController::class, 'index'])->name('home.tournaments');
 // Quiz
 Route::get('quiz/create', [App\Http\Controllers\QuizController::class, 'create'])->name('quiz.create');
+Route::post('quiz/submit', [App\Http\Controllers\QuizController::class, 'submitQuiz'])->name('quiz.submit');
 Route::get('quiz/my-quizzes', [App\Http\Controllers\QuizController::class, 'my_quizzes'])->name('quiz.my-quizzes');
 Route::post('quiz/store', [App\Http\Controllers\QuizController::class, 'store'])->name('quiz.store');
 Route::get('quizzes/{quiz_slug}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
 Route::get('{quiz_id}/{quiz}', [App\Http\Controllers\QuizController::class, 'quiz_catch'])->name('quiz.catch');
+Route::get('results', [App\Http\Controllers\QuizController::class, 'result'])->name('result');
 //questions
 Route::get('quizzes/{id}/{slug}/create-questions', [App\Http\Controllers\QuestionController::class, 'create'])->name('questions.form');
 Route::post('question/store', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.store');
