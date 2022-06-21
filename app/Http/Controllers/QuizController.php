@@ -7,6 +7,9 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\Quiz;
+use App\Models\Result;
+use App\Models\Question;
+use App\Models\Option;
 use App\Models\Tournament;
 class QuizController extends Controller
 {
@@ -108,12 +111,12 @@ class QuizController extends Controller
             $data = request()->all();
             $data['user_id']=Auth::user()->id;
             $data['slug']=\Str::slug($data['title']);
-            $post = new Quiz();
-            $post->fill($data);
-            $post->save();
+            $quiz = new Quiz();
+            $quiz->fill($data);
+            $quiz->save();
         }
         // return  redirect()->route('quizzes');
-        return  redirect()->back();
+        return  redirect()->route('questions.form',['id'=>$quiz->id,'slug'=>$quiz->slug]);
 
     }
 
@@ -155,6 +158,41 @@ class QuizController extends Controller
     {
         //
     }
+    public function submitQuiz(Request $request)
+    {
+        // dd($request->all());
+        $user_id = Auth::user()->id;
+        $quiz_id = $request->quiz_id;
+        $request->validate([
+            "selected" => "array",
+        ]);
+        $score = 0;
+        if($request->selected == null){
+            $result = Result::create([
+                'user_id'=>$user_id,
+                'quiz_id'=>$quiz_id,
+                'result'=>$score, 
+            ]);
+            $result->save();
+        }else{
+            foreach ($request->selected as $p) {
+                $find = Option::find($p);
+                if($find->iscorrect == 1){
+                    $score++;
+                }
+                // dd($find);
+                // echo $p;
+            }
+            $result = Result::create([
+                'user_id'=>$user_id,
+                'quiz_id'=>$quiz_id,
+                'result'=>$score, 
+            ]);
+            $result->save();
+        }
+        return redirect()->route('result');
+
+    }
 
     /**
      * Update the specified resource in storage.
@@ -175,6 +213,19 @@ class QuizController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function result()
+    {
+        $key = 0;
+        $active_tabs = null;
+        $id = Auth::user()->id;
+        $quiz_count = Quiz::where('user_id',$id)->get()->count();
+        $quizzes = Quiz::where('user_id',$id)->with('result')->get();
+        
+        $profile =Profile::where('user_id',$id)->first();
+        $user = User::find($id);
+        // $results = Result::where('user_id',$user->id)->get();
+        return view('home.quizzes.results',compact('key','active_tabs','profile','user','quiz_count','quizzes'));
+    }
     public function destroy($id)
     {
         //
