@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('hint')->nullable();
             $table->text('explanation')->nullable();
             $table->string('imagepath')->nullable();
-            $table->foreign('quiz_id')->references('id')->on('quizzes');
+            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

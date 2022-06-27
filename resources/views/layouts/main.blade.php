@@ -3,7 +3,6 @@
   {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
 	<head>
         <meta charset="utf-8">
-
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +12,6 @@
         <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
         <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
         <meta name="author" content="FreeHTML5.co" />
-            <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
         {{--  --}}
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -48,7 +46,6 @@
         <meta name="twitter:url" content="" />
         <meta name="twitter:card" content="" />
     
-        <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700,800" rel="stylesheet">
         
         <!-- Animate.css -->
         <link rel="stylesheet" href="{{asset('homepage/css/animate.css')}}">
@@ -91,7 +88,7 @@
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
-							<li class="active"><a href="{{route('home')}}">Home</a></li>
+							{{-- <li class="active"><a href="{{route('home')}}">Home</a></li>
                             <li class="has-dropdown">
 								<a >Language</a>
 								<ul class="dropdown">
@@ -99,7 +96,7 @@
 									<li><a href="{{url('en/home')}}">English</a></li>
 									<li><a href="{{url('tr/home')}}">Turkish</a></li>
 								</ul>
-							</li>
+							</li> --}}
 							<li><a href="{{route('about')}}">About</a></li>
                             @if (Route::has('login'))
                                 @auth
@@ -163,7 +160,7 @@
 				<div class="row">
 					<div class="col-4">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a
+                            {{-- <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==9 ? 'active' : ''}}"
                               id="list-home-list"
                               data-mdb-toggle="list"
@@ -171,8 +168,8 @@
                               role="tab"
                               aria-controls="list-home"
                               ><i class="fa fa-comment"></i> Messages</a
-                            >
-                            <a
+                            > --}}
+                            {{-- <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==9 ? 'active' : ''}}"
                               id="list-home-list"
                               data-mdb-toggle="list"
@@ -180,7 +177,7 @@
                               role="tab"
                               aria-controls="list-home"
                               ><i class="fa fa-bell"></i> Notifications</a
-                            >
+                            > --}}
                             <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==0 ? 'active' : ''}}"
                               id="list-home-list"
@@ -254,7 +251,7 @@
                               <div class="middle-container d-flex justify-content-between align-items-center mt-3 p-2">
                                   <div class="d-flex flex-column"> <span class="current-balance">Quiz Count</span> <span class="amount">{{$quiz_count}}</span> </div>
                               </div>
-                              <div class="wishlist-border pt-2"> <span class="wishlist">2 Messages</span> </div>
+                              {{-- <div class="wishlist-border pt-2"> <span class="wishlist">2 Messages</span> </div> todo--}} 
                               <div class="wishlist-border pt-2"> <span class="wishlist">
                                 @if($user->profile->education != null)
                                 <i class="fa fa-graduation-cap"></i>  {{$profile->education}}
@@ -308,6 +305,7 @@
 					<div class="panel" style="margin-left:15px">
              
 							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-quizzes')}}"  style=" margin : 15px" >My Quizzes</a>
+							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-results')}}"  style=" margin : 15px" >Catched</a>
 							<a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.create')}}" style=" margin : 15px">Create</a>
               <form action="#" method="GET">
                 <button class="btn btn-light" type="submit" style="margin: 15px;"><i class="fa fa-search"></i></button>
@@ -346,9 +344,6 @@
                         <i class="fa fa-video-camera" style="margin: 15px"></i>
                         <input name="video" class="custom-file-input" type="file"  accept="video/*" controls preload>
                       </label>
-                  </li>
-                  <li>
-                    <a href=""><i class="fa fa-question" aria-hidden="true"></i></a>
                   </li>
                   <li>
                       <select name="private" id="" style="margin-top: 15px; border:0px; background-color:transparent">

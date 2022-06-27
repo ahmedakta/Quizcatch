@@ -3,7 +3,7 @@
 <title>Quizzes | Quiz Catch </title>
 
 						   {{-- Start Post Page --}}
-						@if ($message = Session::get('success'))
+						@if ($message = Session::get('error'))
 						<div class="alert alert-success alert-block">
 							<button type="button" class="close" data-dismiss="alert">×</button>
 								<strong>{{ $message }}</strong>
@@ -46,7 +46,7 @@
 
 							{{-- New Style --}}
 							<div class="panel panel-default">
-								<a href="{{route('quiz.show',['quiz_slug'=>$quiz->slug])}}">
+								<a href="{{route('quiz.show',$quiz)}}">
 								  <div class="panel-body">
 									@if ($quiz->image != null)
 									<img src="{{URL::asset($quiz->image)}}" style="height: 130px; width:150px; margin:10px;" class="pull-left">
@@ -60,7 +60,7 @@
 										{{$quiz->explanation}}
 									</div>
 									<div class="g-mb-15" style="margin: 15px">
-										Quiz End At : {{$quiz->stopped_at}}
+										Quiz End At : {{$quiz->end_time}}
 									</div>
 								  </div>
 								  {{-- <div class="panel-footer">
@@ -76,27 +76,27 @@
 
 							  {{-- New Style --}}
 
-							<script>
-								  $('#quizShow').on('show.bs.modal', function (event) {
-										var button = $(event.relatedTarget) // Button that triggered the modal
-										var recipient = button.data('whatever') // Extract info from data-* attributes
-										// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-										// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-										var modal = $(this)
-										modal.find('.modal-title').text('New Quiz')
-										modal.find('.modal-body input').val(recipient)
-										})
-							</script>
-								@endforeach
-
-								  <style>
-									  .panel-default a:link, .panel-default a:hover, .panel-default a:visited, .panel-default a:active {
-       color: #000;
-       text-decoration: none;
-}
-								  </style>
+							  @endforeach
+							  
+							  <style>
+								  .panel-default a:link, .panel-default a:hover, .panel-default a:visited, .panel-default a:active {
+									  color: #000;
+									  text-decoration: none;
+									}
+									</style>
 								{{$quizzes->links()}}
-						   @endif
-						   {{-- End Post Page --}}
-						 {{-- end right nav --}}
+								@endif
+								{{-- End Post Page --}}
+								{{-- end right nav --}}
+								{{-- <script>
+									  $('#quizShow').on('show.bs.modal', function (event) {
+											var button = $(event.relatedTarget) // Button that triggered the modal
+											var recipient = button.data('whatever') // Extract info from data-* attributes
+											// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+											// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+											var modal = $(this)
+											modal.find('.modal-title').text('New Quiz')
+											modal.find('.modal-body input').val(recipient)
+											})
+								</script> --}}
 @endsection

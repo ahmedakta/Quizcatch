@@ -3,7 +3,6 @@
 
 @if (count($questions)>0)
 @foreach ($questions as $item)
-
 {{-- <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30" style=" margin:auto;">
     @if ($item->image != null)
 				<img class="card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="height: 230px; width:350px; margin-bottom:10px">
@@ -20,18 +19,16 @@
   <h1  id="timer" style="text-align:center"></h1>
 	<div class="row">
 	    <br/>
-        <div class="panel panel-primary">
-             <div class="panel-heading">
+        <div class="panel panel-danger">
+             <div class="panel">
                 @if ($item->image != null)
-				<img class="card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="height: 230px; width:350px; margin-bottom:10px">
+                  <img class="center card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="display: block;  max-width:70%; height:540px; margin:auto; ">
                 @endif
                   <pre>
-                      {{$item->title}}
+ {{$item->title}}
                   </pre>
              </div><!--.panel-heading-->
 
-      <div class = "panel-body">
-           </div>
            <form action="{{route('quiz.submit',['quiz_id'=>$item->quiz_id])}}" method="POST">
              @csrf
             <ul class = "list-group">
@@ -49,20 +46,23 @@
                 </li>
                 @endforeach --}}
                       @foreach ($item->options()->get() as $option)
-                      <input type="checkbox" id="checkbox" name="selected[]" value="{{$option->id}}" />
-                      <label for="checkbox">
-                          {{$option->option_text}}
-                      </label>
+                        <input type="radio" id="{{$option->id}}" name="selected[].{{$item->id}}" value="{{$option->id}}" style="accent-color:#f95959"/>
+                        <label for="checkbox">
+                            {{$option->option_text}}
+                        </label>
                       <br>
                       @endforeach
               </li>
              </ul>
+             @if ($item->hint!=null)
+             Hint : {{$item->hint}}
+             @endif
                   </div>
           </div>
           </div>
           @endforeach
           <li class = "list-group-item">
-            <button id="submitQuiz" type="submit" class="form-control btn btn-primary submit px-3">Submit</button>
+            <button id="submitQuiz" type="submit" class="btn btn-primary submit">Submit</button>
           </li>
            </form>
           @else
@@ -70,35 +70,6 @@
               Quiz Dont Have Questions.
             </div>
           @endif
-
-
-  <script>
-         function incTimer() {
-        var currentMinutes = Math.floor(totalSecs / 60);
-        var currentSeconds = totalSecs % 60;
-        if(currentSeconds <= 9) currentSeconds = "0" + currentSeconds;
-        if(currentMinutes <= 9) currentMinutes = "0" + currentMinutes;
-        totalSecs++;
-        $("#timer").text(currentMinutes + ":" + currentSeconds);
-        setTimeout('incTimer()', 1000);
-
-    }
-         $(document).ready(function() {
-             setTimeout(myFunction, 3000);
-         });
-         function myFunction() {
-            //  window.location.href = '/home';
-         }
-    totalSecs = 0;
-    $(document).ready(function() {
-            incTimer();
-    });
-      $(document).ready(function(){
-      $('.check').click(function() {
-          $('.check').not(this).prop('checked', false);
-      });
-  });
-  </script>
 <style>
     @import('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css')
 

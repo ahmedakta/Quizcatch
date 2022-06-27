@@ -60,7 +60,7 @@ class QuizController extends Controller
         $key = 0;
         $active_tabs = null;
         $id = Auth::user()->id;
-        $quizzes = Quiz::where('user_id',$id)->get()->all();
+        $quizzes = Quiz::where('user_id',$id)->orderBy('created_at','DESC')->get()->all();
         $quiz_count = Quiz::where('user_id',$id)->get()->count();
         $profile =Profile::where('user_id',$id)->first();
         $user = User::find($id);
@@ -93,13 +93,10 @@ class QuizController extends Controller
                 'user_id'=>Auth::id(),
                 'image'=>'uploads/quizzes/images/'.$newPhoto,
                 'title'=>$request->title,
-                'to_be_continued' => $request->to_be_continued,
-                'slug'=>\Str::slug($request->title),
+                'end_time' => $request->end_time,
                 'explanation'=>$request->explanation,
                 'started_at'=>$request->started_at,
                 'stopped_at'=>$request->stopped_at,
-                // 'slug'=>str_slug($request->product_name),
-                // 'category_id'=>$request->category_id,
             ]);
             $quiz->save();
         }else{
@@ -110,7 +107,6 @@ class QuizController extends Controller
             $user = User::find($id);
             $data = request()->all();
             $data['user_id']=Auth::user()->id;
-            $data['slug']=\Str::slug($data['title']);
             $quiz = new Quiz();
             $quiz->fill($data);
             $quiz->save();
@@ -138,14 +134,18 @@ class QuizController extends Controller
         $quiz = Quiz::where('slug',$quiz_slug)->get()->first();
         return view('home.quizzes.show',compact('quiz','key','active_tabs','profile','user','quiz_count'));
     }
-    public function quiz_catch($quiz_id)
+    public function quiz_catch($quiz_id,$quiz)
     {
+        // dd($quiz->questions()->count());
         $quiz =Quiz::find($quiz_id);
-        $questions = $quiz->questions()->with(['options'=>function($query){
-            $query->select('option_text','iscorrect');
-        }])->get();
-        // dd($questions);
+        // dd($quiz);
+        // $questions = $quiz->questions()->with(['options'=>function($query){
+        //     $query->select('option_text','iscorrect');
+        // }])->get();
+        // dd($quiz->questions()->get());
+        $questions = $quiz->questions()->with(['options'])->get();
         return view('home.quizzes.quiz',compact('questions'));
+        // dd($questions);
     }
 
     /**
@@ -190,7 +190,7 @@ class QuizController extends Controller
             ]);
             $result->save();
         }
-        return redirect()->route('result');
+        return redirect()->route('quiz.my-results');
 
     }
 
@@ -213,21 +213,56 @@ class QuizController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function result()
+    public function quiz_result($quiz_id)
     {
-        $key = 0;
-        $active_tabs = null;
-        $id = Auth::user()->id;
-        $quiz_count = Quiz::where('user_id',$id)->get()->count();
-        $quizzes = Quiz::where('user_id',$id)->with('result')->get();
-
-        $profile =Profile::where('user_id',$id)->first();
-        $user = User::find($id);
-        // $results = Result::where('user_id',$user->id)->get();
-        return view('home.quizzes.results',compact('key','active_tabs','profile','user','quiz_count','quizzes'));
+        $quiz = Quiz::find($quiz_id);
+        $owner = $quiz->user_id;
+        if($owner == Auth::user()->id){
+            $key = 0;
+            $active_tabs = null;
+            $id = Auth::user()->id;
+            $quiz_count = Quiz::where('user_id',$id)->get()->count();
+            $quizzes = Quiz::where('user_id',$id)->with('result')->get();
+            $profile =Profile::where('user_id',$id)->first();
+            $user = User::find($id);
+    
+            $results = Result::where('quiz_id',$quiz_id)->get()->all();
+            return view('home.quizzes.results',compact('key','active_tabs','profile','user','quiz_count','quizzes','results','quiz'));
+        }
+        return redirect()->back()->with('message', "You Cant See This Quiz Results");            
+        // dd($quiz_id);
     }
-    public function destroy($id)
+    public function my_results()
     {
-        //
+            $id = Auth::user()->id;
+            $user = User::find($id);
+            $key = 0;
+            $active_tabs = null;
+            $quiz_count = Quiz::where('user_id',$id)->get()->count();
+            $quizzes = Quiz::where('user_id',$id)->with('result')->get();
+            $profile =Profile::where('user_id',$id)->first();
+    
+            // $results = Result::results('user_id',$id)->get()->all();
+            $results = Result::results($id);
+            // $dneme = Result::find(1)->get();
+            return view('home.quizzes.my-results',compact('key','active_tabs','profile','user','quiz_count','quizzes','results'));
+     
+        // dd($quiz_id);
+    }
+
+
+    public function destroy(Quiz $quiz)
+    {
+        // dd('quiz');
+        $quiz = Quiz::findOrFail($quiz->id);
+        // dd($quiz->title);
+        if($quiz->user_id == Auth::user()->id){
+            $quizDeleted = $quiz->Delete();
+            if ($quizDeleted) {
+                return back()->with('message','deleted');
+            }
+        }else{
+            return back()->with('message', 'Seems to have gotten a problem');
+        }
     }
 }

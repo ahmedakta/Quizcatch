@@ -1,24 +1,30 @@
 <?php
 
 namespace App\Models;
-
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
     protected $table = 'quizzes';
     protected $fillable = [
         'user_id',
         'image',
         'title',
         'slug',
-        'to_be_continued',
         'explanation',
-        'started_at',
-        'stopped_at',
+        'end_time',
     ];
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
     public function scopeFilter($query){
         if(request('search')){
         $query

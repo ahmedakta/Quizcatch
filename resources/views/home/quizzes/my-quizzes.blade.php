@@ -4,6 +4,9 @@
       @php
           $count = 1;
       @endphp
+      @if(session()->has('message'))
+      <p class="alert alert-success"> {{ session()->get('message') }}</p>
+      @endif
     @if ($quiz_count >0)
       @foreach ($quizzes as $item)
       <div class="container" style="margin-top: 10px; ">
@@ -13,13 +16,16 @@
               <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">        
                 <div class="pull-left">
                   @if ($item->image != null)
-                      <img class="card-img-top" src="{{URL::asset($item->image)}}" style="height: 130px; width:150px; margin-bottom:10px">
+                      <img class="card-img-top" src="{{URL::asset($item->image)}}" style="height: 130px; width:150px; margin:10px">
                   @endif
                </div>
-        <h3> {{$item->title}}</h3>
+               <div style="margin-top: 10px">
+                 <h3> {{$item->title}}</h3>
+               </div>
         <p>{{$item->explanation}}</p>
-        <a href="{{route('questions.form',['id'=>$item->id,'slug'=>$item->slug])}}" class="btn btn-primary pull-right">({{$item->questions()->count()}}) Add Questions To Quiz</a>
-        <a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.show',['quiz_slug'=>$item->slug,'quiz_id'=>$item->id])}}">Show</a>
+        <a href="{{route('questions.form',['id'=>$item->id,'slug'=>$item->slug])}}" class="btn btn-primary pull-right">({{$item->questions()->count()}}) Add Questions</a>
+        <a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.show',$item)}}"><span><i class="fa fa-eye"></i></span></a>
+        <a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.result',['result_id'=>$item->id])}}">RESULTS</a>
                </div>
             </div>
           </div>
@@ -42,7 +48,7 @@
     @else
     <div class="alert alert-warning" role="alert">
       You Dont Have Any Quiz Yet !
-      Create <a href="#">Now</a>
+      Create <a href="{{route('quiz.create')}}">Now</a>
     </div>
     @endif
     </tbody>

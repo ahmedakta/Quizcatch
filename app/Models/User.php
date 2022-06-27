@@ -30,6 +30,10 @@ class User extends Authenticatable
     {
     	return $this->hasMany('App\Models\Quiz');
     }
+    public function accomplishment()
+    {
+    	return $this->hasOne('App\Models\Accomplishment');
+    }
     public function results()
     {
     	return $this->hasMany('App\Models\Result');

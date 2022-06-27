@@ -94,14 +94,14 @@
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
 							<li class="active"><a href="{{route('home')}}">Home</a></li>
-                            <li class="has-dropdown">
+                            {{-- <li class="has-dropdown">
 								<a href="#">Language</a>
 								<ul class="dropdown">
 									<li><a href="{{url('ar/home')}}">Arabic</a></li>
 									<li><a href="{{url('en/home')}}">English</a></li>
 									<li><a href="{{url('tr/home')}}">Turkish</a></li>
 								</ul>
-							</li>
+							</li> todo --}}
 							<li><a href="{{route('about')}}">About</a></li>
                             @if (Route::has('login'))
                                 @auth

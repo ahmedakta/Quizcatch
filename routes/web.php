@@ -23,9 +23,12 @@ use App\Mail\WelcomeMail;
 //     Auth::routes();
 
 // });
-
+Route::permanentRedirect('/here', '/');
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
+});
+Route::get('/home', function () {
+    return redirect()->route('home');
 });
 Route::get('/email', function () {
     return new WelcomeMail();
@@ -34,14 +37,14 @@ Route::get('about', [App\Http\Controllers\MessageController::class, 'about'])->n
 Route::post('sendMail', [App\Http\Controllers\MessageController::class, 'sendMail'])->name('sendMail');
 Auth::routes();
 // home
-Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // POSTS
 Route::get('posts', [App\Http\Controllers\PostController::class, 'index'])->name('home.posts');
 Route::get('{user}/private-posts', [App\Http\Controllers\PostController::class, 'private_posts'])->name('private.posts');
 Route::get('{post}/edit', [App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
 Route::post('save', [App\Http\Controllers\PostController::class, 'postSave'])->name('post.save');
 Route::get('{user}/saved-posts', [App\Http\Controllers\PostController::class, 'saved_posts'])->name('saved.posts');
-Route::get('{post}/delete', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.delete');
+Route::delete('post/{post:id}/delete', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.delete');
 Route::post('store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
 // POSTS LIKE
 Route::post('like', [App\Http\Controllers\PostController::class, 'postLikePost'])->name('post.like');
@@ -52,9 +55,11 @@ Route::get('quiz/create', [App\Http\Controllers\QuizController::class, 'create']
 Route::post('quiz/submit', [App\Http\Controllers\QuizController::class, 'submitQuiz'])->name('quiz.submit');
 Route::get('quiz/my-quizzes', [App\Http\Controllers\QuizController::class, 'my_quizzes'])->name('quiz.my-quizzes');
 Route::post('quiz/store', [App\Http\Controllers\QuizController::class, 'store'])->name('quiz.store');
-Route::get('quizzes/{quiz_slug}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
-Route::get('{quiz_id}/{quiz}', [App\Http\Controllers\QuizController::class, 'quiz_catch'])->name('quiz.catch');
-Route::get('results', [App\Http\Controllers\QuizController::class, 'result'])->name('result');
+Route::get('quizzes/{quiz:slug}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
+Route::delete('quiz/{quiz:id}/delete', [App\Http\Controllers\QuizController::class, 'destroy'])->name('quiz.delete');
+Route::get('{quiz_id}/{quiz}/catch', [App\Http\Controllers\QuizController::class, 'quiz_catch'])->name('quiz.catch');
+Route::get('{result_id}/results', [App\Http\Controllers\QuizController::class, 'quiz_result'])->name('quiz.result');
+Route::get('results', [App\Http\Controllers\QuizController::class, 'my_results'])->name('quiz.my-results');
 //questions
 Route::get('quizzes/{id}/{slug}/create-questions', [App\Http\Controllers\QuestionController::class, 'create'])->name('questions.form');
 Route::post('question/store', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.store');

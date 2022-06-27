@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
+use App\Models\Accomplishment;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Like;
@@ -26,14 +28,24 @@ class ProfileController extends Controller
     {
         // dd($user_name);
         $user = User::where('user_name',$user_name)->get()->first();
+        // dd($user->id);
         if($user==null){
             return redirect()->back()->with('message', "User Not Found");            
         }
         $likes = Like::where('like',1)->get();
         $posts = Post::where('user_id',$user->id)->get()->sortByDesc('created_at');
         $quizzes = Quiz::where('user_id',$user->id)->get();
+        $quiz_count = Quiz::where('user_id',$user->id)->get()->count();
         $profile = $user->profile;
-        return view('user.profile',compact('user','quizzes','profile','posts','likes'));
+        $accomplishment = Accomplishment::where('user_id',$user->id)->get()->first();
+        // dd($accomplishment==null);
+        if($accomplishment == null){
+            $accomplishment = new Accomplishment();
+            $accomplishment->user_id = $user->id;
+            $accomplishment->save();
+        }
+        $accomplishment_status = Accomplishment::accomplishment($quiz_count,$user->id);
+        return view('user.profile',compact('user','quizzes','profile','posts','likes','accomplishment_status'));
 
 
 
@@ -74,7 +86,7 @@ class ProfileController extends Controller
     {
         $user_id = Auth::user()->id;
         $genderArray = ['male','female'];
-        $user = User::findOrFail($user_id);;
+        $user = User::findOrFail($user_id);
         $profile = Profile::where('user_id',$user_id)->get()->first();
         return view('user.profile-edit',compact('user','profile','genderArray'));
     }

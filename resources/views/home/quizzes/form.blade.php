@@ -10,8 +10,8 @@
         </div>
         <div class="form-group">
             <div class="col-xs-6">
-              <label for="last_name"><h4>continued</h4></label>
-              <input type="number" class="form-control" name="to_be_continued" required>
+              <label for="last_name"><h4>Stopped At</h4></label>
+              <input type="date" class="form-control" name="end_time" required>
             </div>
         </div>
         <div class="form-group">
@@ -20,18 +20,6 @@
               <input type="text" class="form-control" name="explanation"  placeholder="optional" required>
               <label for="mobile"><h4>Image</h4></label>
               <input type="file" name="image" accept="image/*" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-6">
-              <label for="last_name"><h4>Started At</h4></label>
-              <input type="datetime-local" class="form-control" name="started_at" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-6">
-              <label for="last_name"><h4>Stopped At</h4></label>
-              <input type="datetime-local" class="form-control" name="stopped_at" required>
             </div>
         </div>
         <br>

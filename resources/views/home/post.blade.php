@@ -20,11 +20,8 @@
   color: #2e2e2e
 }
 </style> --}}
-						@if ($message = Session::get('success'))
-						<div class="message alert alert-success alert-block">
-							<button type="button" class="close" data-dismiss="alert"></button>
-								<strong>{{ $message }}</strong>
-						</div>
+						@if(session()->has('message'))
+						<p class="alert alert-success"> {{ session()->get('message') }}</p>
 						@endif
 						@if (count($errors) > 0)
 							<div class="alert alert-danger">
@@ -51,13 +48,13 @@
 											<div class="media g-mb-30 media-comment">
 												<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
 												  <div class="g-mb-15">
-													<a href="{{$post->user->user_name}}"> <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" style="border-radius: 20px" src="{{asset($post->user->profile->photo)}}" alt="Image Description"></a>
+													<a href="{{route('user.profile',$post->user->user_name)}}"> <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" style="border-radius: 20px" src="{{asset($post->user->profile->photo)}}" alt="Image Description"></a>
 													 <div class="pull-right">
 														 <form>
 															 <a href="#" id="isSave" data-id="{{$post->id}}" type="submit" class="save fa fa-bookmark" style="margin-right:20px;"> Save</a>
 														 </form>
 													  </div>
-													 <span class="g-color-gray-dark-v4">123 Followers - </span>
+													 {{-- <span class="g-color-gray-dark-v4">123 Followers - </span> todo --}}
 													 <span class="g-color-gray-dark-v4" >{{$post->created_at->diffForHumans()}} - </span>
 													 <span class="g-color-gray-dark-v4" >
 														@if ($post->private != 0)
@@ -70,11 +67,13 @@
 													</div>
 													<p>{{$post->content}}</p>
 													@if ($post->image != null)
-													<img class="card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap" style="height: 230px; width:350px; margin-bottom:10px">
+													<img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
 													@elseif($post->video != null)
-														<video width="350" height="230" >
+													<div style="max-width:100%;height:auto;">
+														<video width="100%" height="auto" controls>
 															<source src="{{URL::asset($post->video)}}" type="video/mp4" >
 														</video>
+													</div>
 														{{-- @if ($errors->has('video'))
 															{{$errors->first('video')}}
 														@endif --}}

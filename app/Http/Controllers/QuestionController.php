@@ -20,9 +20,15 @@ class QuestionController extends Controller
     }
     public function create(Request $request)
     {
+        // $quiz_slug = $request->route('quiz_slug');
+            // dd($request->id);
+        // dd('this');
         // dd($request->id);
         $quiz_id = $request->id;
         $quiz = Quiz::find($request->id);
+        if ($quiz->user_id != Auth::user()->id) {
+            return redirect()->back();
+        }
         $key = 0;
         $active_tabs = 1;
         $posts = Post::all()->sortByDesc('created_at');
@@ -55,7 +61,6 @@ class QuestionController extends Controller
     }
     public function store(Request $request)
     {
-
         // dd($request->all());
         if($request->has('image')){
         //     $request->validate([

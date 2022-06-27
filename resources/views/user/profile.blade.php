@@ -7,17 +7,16 @@
     <!-- Begin .page-heading -->
     <div class="page-heading">
       @if(session()->has('message'))
-      <p class="alert alert-danger"> {{ session()->get('message') }}</p>
+      <p class="alert alert-success"> {{ session()->get('message') }}</p>
       @endif
         <div class="media clearfix">
           <div class="media-left pr30">
               <img class="media-object mw150" style="width:200px" src="{{asset($profile->photo)}}" alt="...">
           </div>                      
           <div class="media-body va-m">
-            <h2 class="media-heading">{{$user->name}}
-              <small> - Profile</small>
-            </h2>
-            <p>{{$user->user_name}}</p>
+            <h2 class="media-heading">{{$user->name}}</h2>
+            <small> - Profile</small>
+            <p>User Name :  {{$user->user_name}}</p>
             <p class="lead">{{$user->profile->about}}</p>
             {{-- <div class="media-links">
               <ul class="list-inline list-unstyled">
@@ -87,16 +86,19 @@
               @if (Auth::user()->id == $user->id)
               <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#exampleModalLong">
                 <i class="fa fa-pencil"></i> Edit Profile
+               
               </button>
                 @endif
+
+                
               </span>
             </div>
             <div class="panel-body pb5">
               <h4>Gender : {{$user->profile->gender}}</h4>
               <h4>Birth Date : {{$user->profile->date_of_birth}}</h4>
               <h4>Phone Number : {{$user->profile->phone_number}}</h4>
-              <h4>Quiz Count : {{$user->quizzes->count()}}</h4>
-              <h4>Posts Count : {{$user->posts->count()}}</h4>
+              <h4>{{$user->quizzes->count()}} Quizzes</h4>
+              <h4>{{$user->posts->count()}} Posts</h4>
               <hr class="short br-lighter">
               <h6>Education</h6>
 
@@ -104,9 +106,17 @@
 
               <hr class="short br-lighter">
 
-              <h6>Accomplishments</h6>
-
-              <h4>Successful Business</h4>
+              <h6>Rewards</h6>
+              {{-- @if ($accomplishment_status['text']) --}}
+              {{-- {{$accomplishment_status}}  --}}
+              {{-- @endif --}}
+              @if (is_array($accomplishment_status))
+                  @foreach($accomplishment_status as $imagePath)
+                        <img style="width:80px" src="{{$imagePath}}" alt="">
+                  @endforeach
+              @else
+              <div>{{$accomplishment_status}}</div>
+              @endif
               <p class="text-muted pb10"> 
                 <br>
               </p>
@@ -124,12 +134,12 @@
               <li>
                 <a href="#posts" data-toggle="tab">Posts</a>
               </li>
-              <li>
+              {{-- <li>
                 <a href="#messages" data-toggle="tab">Messages</a>
               </li>
               <li>
                 <a href="#follow" data-toggle="tab">Follow</a>
-              </li>
+              </li> todo --}}
             </ul>
             <div class="tab-content p30" style="height: 730px;">
               <div id="quizzes" class="tab-pane active">
@@ -143,15 +153,28 @@
                           <div class="g-mb-15">
                            <br>
                            <h1 class="h3 g-color-gray-dark-v1 mb-0" >{{$quiz->title}}</h1>
+                           <p>{{$quiz->questions()->count()}} Questions</p>
+                           <p>{{$quiz->result()->count()}} Catch count</p>
                           <span class="h5 g-color-gray-dark-v4 g-font-size-8">{{$quiz->created_at->diffForHumans()}}</span>
                           </div>
                           <ul class="list-inline d-sm-flex my-0">
                             @if (Auth::user()->id == $user->id)
-                            <div >
-                              <button class="btn btn-info " type="submit" data-toggle="modal" data-target="#quizShow" data-whatever="">Details</button>
+                            <div style="margin:5px;">
+                              <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" >Details</a>
+                              <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
+                              <form action="{{route('quiz.delete',$quiz)}}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger" type="submit">
+                                  <span>
+                                    <i class="fa fa-trash"></i>
+                                  </span>
+                                </button>
+                              </form>
                             </div>
-                          @endif
+                            @endif
                           </ul>
+                          <hr style="border-width:1px;border-color:#191717">
                         </div>
                       </div>
                     </div>
@@ -170,23 +193,36 @@
               <div id="posts" class="tab-pane">
                 <div class="media-body">
                   @if (count($posts)>0)
-                  @foreach ($posts as $item)
+                  @foreach ($posts as $post)
                   <h5 class="media-heading mb20">{{$user->name}}
-                    <small> {{$item->created_at->diffForHumans()}}</small>
+                    <small> {{$post->created_at->diffForHumans()}}</small>
                   </h5>
                   {{-- Content --}}
-                  @if ($item->image != null)
-                  <img class="card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="height: 230px; width:400px; margin-bottom:10px">
+                  @if ($post->image != null)
+                  <img class="card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap" style="height: 230px; width:400px; margin-bottom:10px">
                   @endif
                   <div style="margin-bottom:10px">
-                    {{$item->content}}
+                    {{$post->content}}
                   </div>
+                  <ul class="list-inline d-sm-flex my-0">
+                    @if (Auth::user()->id == $user->id)
+                    <div style="margin:5px;">
+                      <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
+                      <form action="{{route('post.delete',$post)}}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger" type="submit">
+                          <span>
+                            <i class="fa fa-trash"></i>
+                          </span>
+                        </button>
+                      </form>
+                    </div>
+                  @endif
+                  </ul>
                   <div>
-                    @foreach ($likes as $like)
-                    @if ($like->post_id == $item->id)
-                    likes =  {{$like->count()}}
-                    @endif
-                    @endforeach
+                    {{$post->likes->where('like', 1)->count()}} <span><i class="fa fa-thumbs-up"></i></span>
+                    {{$post->likes->where('like', 0)->count()}} <span><i class="fa fa-thumbs-down"></i></span>
                   </div>
                   <hr>
                   {{-- /Content --}}
@@ -200,8 +236,8 @@
                   </div>                 @endif
                 </div>
               </div>
-              <div id="messages" class="tab-pane">Messages</div>
-              <div id="follow" class="tab-pane">Follow</div>
+              {{-- <div id="messages" class="tab-pane">Messages</div>
+              <div id="follow" class="tab-pane">Follow</div> todo --}}
             </div>
           </div>
         </div>
@@ -241,19 +277,7 @@
           <h6>Education <i class="fa fa-graduation-cap"></i> </h6>
 
           <h4><textarea name="education" id="" cols="30" rows="2">{{$profile->education}}</textarea></h4>
-
-          <hr class="short br-lighter">
-
-          <h6>Accomplishments</h6>
-          <p class="text-muted pb10"> 
-            <br>
-          </p>
-          <hr class="short br-lighter">
-          <h6>Privacy</h6>
-          <h4>Old password : <input type="password" name="new_password" placeholder="old password"></h4> 
-          <h4>New password : <input type="password" name="new_password" placeholder="new password"></h4> 
-          <h4>Confirm new password : <input type="password" name="new_password" placeholder="confirm password"></h4> 
-
+          <hr class="short br-lighter"> 
         </div>
 
 {{-- 

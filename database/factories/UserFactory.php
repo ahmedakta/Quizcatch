@@ -91,11 +91,8 @@ class QuizFactory extends Factory
         return [
             'user_id' => 1,
             'title' => $this->faker->sentence,
-            'invite_code' => 1234,
-            'to_be_continued' => 5,
             'explanation' => $this->faker->sentences(10,true),
-            'started_at' => now(),
-            'stopped_at' => now(),
+            'end_time' => now(),
             'created_at' => now(),
             'updated_at' =>  now(), // password
         ];

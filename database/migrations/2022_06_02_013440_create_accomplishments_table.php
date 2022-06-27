@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('accomplishments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('explantion');
-            $table->integer('level');
+            $table->unsignedInteger('user_id')->unsigned();
+            $table->integer('silver')->default(0);
+            $table->integer('gold')->default(0);
+            $table->integer('diamond')->default(0);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

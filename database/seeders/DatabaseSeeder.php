@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
         // App\Models\Post::factory()->count(30)->create();
         // App\Models\Quiz::factory()->count(30)->create();
         \App\Models\User::factory()->count(10)->create();
-        \App\Models\Quiz::factory()->count(30)->create(['slug'=>'something']);
+        \App\Models\Quiz::factory()->count(30)->create();
         \App\Models\Post::factory()->count(10)->create();
         \App\Models\Question::factory()->count(10)->create(['quiz_id'=>1]);
         // factory(App\Model\User::class, 50)->create();

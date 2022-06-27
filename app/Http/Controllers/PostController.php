@@ -54,13 +54,10 @@ class PostController extends Controller
         $key = 5;
         $active_tabs = 1;
         $id = Auth::user()->id;
-        // $user = User::find($id);
         $user = User::findOrFail($id);
-        // $posts = $user->posts()->where('private','=',Post::PRIVATE_POST)->get()->sortByDesc('created_at');
-        $posts = Post::has('saves')->where('user_id',$id)->with('likes','saves')->latest()->get(); 
-        // $saved_at = Post::has('saves'); 
-        // dd($posts);
-        // $realtime_like= SELECT count() FROM likes WHERE like='1';
+        // $posts = Post::has('saves')->where('user_id',$id)->with('likes','saves')->latest()->get()->all(); 
+         $posts = Post::has('saves')->with('likes')->get()->all(); 
+        //  dd($posts[0]->user_id);
         $quiz_count =Quiz::where('user_id',$id)->get()->count();
         $profile =Profile::where('user_id',$id)->first();
         return view('home.saved-post',compact('posts','key','active_tabs','user','profile','quiz_count'));
@@ -202,9 +199,18 @@ class PostController extends Controller
     {
         return view('home.posts.form');
     }
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::destroy($id);
-        return redirect()->back();
+        // dd('post');
+        $post = Post::findOrFail($post->id);
+        // dd($quiz->title);
+        if($post->user_id == Auth::user()->id){
+            $quizDeleted = $post->Delete();
+            if ($quizDeleted) {
+                return back()->with('message','deleted');
+            }
+        }else{
+            return back()->with('message', 'Seems to have gotten a problem');
+        }
     }
 }

@@ -75,7 +75,8 @@ class RegisterController extends Controller
         // dd($user->id);
         $user->user_name = $data['name'].$user->id;
         $user->save();
-        Mail::to($user->email)->send(new WelcomeMail());
+
+        Mail::to($user->email)->send(new WelcomeMail($user));
         return $user;
     }
 }

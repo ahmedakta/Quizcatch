@@ -16,14 +16,11 @@ return new class extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->unsigned();
-            $table->string('image')->nullable();
+            $table->string('image')->default('media/quiz.jpg');
             $table->string('title');
             $table->string('slug')->nullable();
             $table->longText('explanation')->nullable();
-            $table->integer('to_be_continued');
-            $table->dateTime('started_at');
-            $table->dateTime('stopped_at');
-            $table->integer('invite_code')->nullable();
+            $table->date('end_time');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

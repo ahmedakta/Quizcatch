@@ -2,26 +2,29 @@
 @section('main')
 <div class="panel" style="margin:15px;border-radius:20px">
     <div style="margin: 20px">
-        <h3>Title</h3>
         <div>
-            {{$quiz->title}}
+            <img src="{{URL::asset($quiz->image)}}" style="height:auto; width:100%; margin:10px;">
         </div>
-        <h3>Explanation</h3>
-        <div>
-            {{$quiz->explanation}}
+        <a href="{{route('user.profile',$quiz->user->user_name)}}"><img class="pull-left d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" style="border-radius: 20px" src="{{asset($quiz->user->profile->photo)}}" alt="Image Description"></a>
+        <h3>{{$quiz->user->name}}</h3>
+        <div style="margin-top: 50px">
+            <h4>{{$quiz->title}}</h4>
+            <hr style="border-width:3px;border-color:#f95959">
+            <p>
+                {{$quiz->explanation}}
+            </p>
+
         </div>
-        <h3>Info</h3>
-        <div class="g-mb-15" style="margin: 15px">
-            {{$quiz->questions()->count()}} Questions
-        </div>
-        <div class="g-mb-15" style="margin: 15px">
-            [30 minute]
+        <div class="g-mb-15">
+        {{$quiz->questions()->count()}} Questions <br>
+        {{$quiz->result()->count()}} Catch count
+
         </div>
         <h3>
             stopped at
         </h3>
         <div>
-            {{$quiz->stopped_at}}
+            {{$quiz->end_time}}
         </div>
         <a href="{{url()->previous()}}" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
     </div>
