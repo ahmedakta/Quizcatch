@@ -80,29 +80,31 @@
 													</div>
 													<p>{{$post->content}}</p>
 													@if ($post->image != null)
-													<img class="card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap" style="height:  310px; width:400px; margin-bottom:10px">
+													<img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
+													@elseif($post->video != null)
+													<div style="max-width:100%;height:auto;">
+															<video width="100%" height="auto" controls>
+																<source src="{{URL::asset($post->video)}}" type="video/mp4" >
+															</video>
+													</div>
+														{{-- @if ($errors->has('video'))
+															{{$errors->first('video')}}
+														@endif --}}
 													@endif
 												  <ul class="list-inline d-sm-flex my-0">
-													<li class="list-inline-item g-mr-20">
-														<form>
-															{{-- <div>{{$post->id}}</div> --}}
-															<div class="interaction">
-																{{$post->likes->where('like', 1)->count()}} <a href="#" id="isLike" data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" style="margin-right:20px; ">Like</a>
-																{{$post->likes->where('like', 0)->count()}} <a href="#" id="isLike"  data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" style="margin-right:20px">Dislike</a>
-																{{-- <input  id="post_id" class="post_id" type="hidden" name="post_id" value="{{$post->id}}"> --}}
-																@if (Auth::user() == $post->user)
-																	<a href="{{ route('post.edit', ['post' => $post->id]) }}" class="edit">Edit</a> |
-																	<a href="{{ route('post.delete', ['post' => $post->id]) }}" class="delete">Delete</a>
-																@endif
-															</div>
-															
-														</form>
-														
-													</li>
-													<li class="list-inline-item ml-auto">
+													<form action="{{route('post.delete',$post)}}" method="POST">
+														@csrf
+														@method('delete')
+														<button class="btn btn-danger pull-left" type="submit">
+														  <span>
+															<i class="fa fa-trash"></i>
+														  </span>
+														</button>
+													</form>
+													<li class="list-inline-item ml-auto" style="margin-top: 5px">
 													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
 														<i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-														Comment
+														Comments
 													  </a>
 													</li>
 													{{-- <li class="list-inline-item ml-auto">

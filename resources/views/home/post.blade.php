@@ -83,8 +83,8 @@
 														<form>
 															{{-- <div>{{$post->id}}</div> --}}
 															<div class="interaction">
-																{{$post->likes->where('like', 1)->count()}} <a href="#" id="isLike" data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" style="margin-right:20px; ">Like</a>
-																{{$post->likes->where('like', 0)->count()}} <a href="#" id="isLike"  data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" style="margin-right:20px">Dislike</a>
+																{{-- {{$post->likes->where('like', 1)->count()}} <a href="#" id="isLike" data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" style="margin-right:20px; ">Like</a> todo--}}
+																{{-- {{$post->likes->where('like', 0)->count()}} <a href="#" id="isLike"  data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" style="margin-right:20px">Dislike</a> --}}
 																{{-- <input  id="post_id" class="post_id" type="hidden" name="post_id" value="{{$post->id}}"> --}}
 																@if (Auth::user() == $post->user)
 																	<a href="{{ route('post.edit', ['post' => $post->id]) }}" class="edit">Edit</a> |
@@ -102,11 +102,17 @@
 													</li>
 													<li class="list-inline-item ml-auto">
 													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-														<i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+														<span><span><i class="fa fa-comment"></i></span></span>
 														Comments
 													  </a>
 													</li>
-													<div class="d-flex flex-row add-comment-section mt-4 mb-4" style="margin-top:20px;margin-bottom:10px"><input type="text" class="form-control mr-3" placeholder="Add comment"><a class="btn btn-info" type="btn btn-light">Comment</a></div>
+													<form class="ajaxComment">
+														@csrf
+														<div class="d-flex flex-row add-comment-section mt-4 mb-4" style="margin-top:20px;margin-bottom:10px">
+															<input type="text" id='comment_input' class="comment form-control mr-3" placeholder="Add comment"  name="content">
+															<button class="btn btn-info" data-post_id="{{$post->id}}" type="submit" id="comment" ><span><i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i></span></button>
+														</div>
+													</form>
 													{{-- <li class="list-inline-item ml-auto">
 													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
 														<i class="fa fa-bookmark"></i>
@@ -150,54 +156,54 @@ toggle between hiding and showing the dropdown content */
 						// });
 						$('div.message').delay(4000).slideUp(300); //time to success message
 						// Like Dislike Actions
-						 var urlLike = '{{route('post.like')}}';
-						$('.like').on('click',function(event){
-							event.preventDefault();
-							var isLike = event.target.previousElementSibling == null;
-							// console.log(isLike);
-							$.ajaxSetup({
-								headers: {
-									'X-CSRF-TOKEN': "{{ csrf_token() }}"
-									}
-								});
-								var formData = {
-									post_id: $(this).data("id"),
-									isLike: isLike,
-									contentType: "application/json; charset=utf-8",
-									enctype: 'multipart/form-data',
-								};
-								console.log(formData);
-							$.ajax({
-								type: 'POST',
-								url: urlLike,
-								data: formData,
-								success:function(data){
-								$("#msg").html(data.msg);
-								},
-								error:function(reject){
-								}
-								 //Post Id For Learn Which Post We Do actions On ther.
-							})
-								.done(function(){
-									//Change The Page
-									event.target.innerText = isLike ? event.target.innerText == 'Like' ? 'Liked' : 'Like' : event.target.innerText == 'Dislike' ? 'Disliked' : 'Dislike' ;
-									if(isLike){
-										event.target.nextElementSibling.innerText == 'Dislike';
-									}else{
-										event.target.previousElementSibling.innerText == 'Like';
-									}
-									// if(isLike){
-									// 	$('a.like.fa-thumbs-up').bind('style', function(e) {
-									// 		console.log( $(this).attr('style') );
-									// 	});
-									// 	$('a.like.fa-thumbs-up').css('color','#0080F0');
-									// }else{
-									// 	event.target.previousElementSibling.innerText == 'Like';
-									// }
-								});
-						});
+						//  var urlLike = '{{route('post.like')}}';
+						// $('.like').on('click',function(event){
+						// 	event.preventDefault();
+						// 	var isLike = event.target.previousElementSibling == null;
+						// 	// console.log(isLike);
+						// 	$.ajaxSetup({
+						// 		headers: {
+						// 			'X-CSRF-TOKEN': "{{ csrf_token() }}"
+						// 			}
+						// 		});
+						// 		var formData = {
+						// 			post_id: $(this).data("id"),
+						// 			isLike: isLike,
+						// 			contentType: "application/json; charset=utf-8",
+						// 			enctype: 'multipart/form-data',
+						// 		};
+						// 		console.log(formData);
+						// 	$.ajax({
+						// 		type: 'POST',
+						// 		url: urlLike,
+						// 		data: formData,
+						// 		success:function(data){
+						// 		$("#msg").html(data.msg);
+						// 		},
+						// 		error:function(reject){
+						// 		}
+						// 		 //Post Id For Learn Which Post We Do actions On ther.
+						// 	})
+						// 		.done(function(){
+						// 			//Change The Page
+						// 			event.target.innerText = isLike ? event.target.innerText == 'Like' ? 'Liked' : 'Like' : event.target.innerText == 'Dislike' ? 'Disliked' : 'Dislike' ;
+						// 			if(isLike){
+						// 				event.target.nextElementSibling.innerText == 'Dislike';
+						// 			}else{
+						// 				event.target.previousElementSibling.innerText == 'Like';
+						// 			}
+						// 			// if(isLike){
+						// 			// 	$('a.like.fa-thumbs-up').bind('style', function(e) {
+						// 			// 		console.log( $(this).attr('style') );
+						// 			// 	});
+						// 			// 	$('a.like.fa-thumbs-up').css('color','#0080F0');
+						// 			// }else{
+						// 			// 	event.target.previousElementSibling.innerText == 'Like';
+						// 			// }
+						// 		});
+						// });
 
-						// Post Save
+						//Post Save
 						var urlSave = '{{route('post.save')}}';
 						$('.save').on('click',function(event){
 							event.preventDefault();
@@ -245,6 +251,41 @@ toggle between hiding and showing the dropdown content */
 								});
 						});
 
+						//post comments
+						var urlComment = '{{route('post.comment')}}';
+						$.ajaxSetup({
+							headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							}
+						});
+						$(document).on('click','#comment',function(e){
+							e.preventDefault();
+							let form = $(this).closest('.ajaxComment');
+							let comment_input = form.find("input[name=content]").val();
+							// var comment_input = $('#comment_input').val();        
+							var formData = {
+								post_id: $(this).data("post_id"),
+								content:  comment_input,
+								_token: "{{ csrf_token() }}",               
+								dataType: 'json', 
+								contentType:'application/json',
+						};     
+								$.ajax({ 
+									type : 'POST',
+									url : urlComment,
+									data: formData,
+									success:function(data){
+											$("#msg").html(data.msg);
+									},
+									error:function(reject){
+						
+									}
+								})
+								.done(function(){
+									$('input[id="comment_input"]').val('');
+								});
+							});
+							
 						// /Like Dislike Actions
 					</script>
 						   {{-- End Post Page --}}

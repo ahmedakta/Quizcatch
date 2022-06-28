@@ -28,6 +28,10 @@ class Post extends Model
     public function saves(){
         return $this->hasMany('App\Models\Save');
     }
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
 }
 
 

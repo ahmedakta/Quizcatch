@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('question_id')->unsigned();
             $table->string('option_text');
             $table->double('iscorrect')->default(0)->nullable();
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->timestamps();
         });
     }

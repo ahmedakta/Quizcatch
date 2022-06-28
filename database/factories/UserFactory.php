@@ -146,3 +146,35 @@ class QuestionFactory extends Factory
         });
     }
 }
+class OptionFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'question_id' => random_int(1,20),
+            'option_text' => $this->faker->sentence,
+            'iscorrect' =>random_int(0,1),
+
+        ];
+    }
+    
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+}

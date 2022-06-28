@@ -67,7 +67,7 @@
             <div class="col-xs-12">
                 <h3>Select correct option</h3>
                 <div class="form-check">
-                    <input class="form-check-input" class="form-control" type="radio" name="iscorrect" value="0" checked>
+                    <input class="form-check-input" class="form-control" type="radio" name="iscorrect" value="0" checked required>
                     <label for="mobile">
                       Option #1
                     </label>

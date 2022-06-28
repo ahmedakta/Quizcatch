@@ -80,12 +80,13 @@ class QuestionController extends Controller
             // dd($question->id);
 
             $options_data = [
-                ["question_id"=>$question->id,"option_text" => $request['option_1']],
-                ["question_id"=>$question->id,"option_text" => $request['option_2']],
-                ["question_id"=>$question->id,"option_text" => $request['option_3']],
-                ["question_id"=>$question->id,"option_text" => $request['option_4']],
+                ["question_id"=>$question->id,"option_text" => $request['option_1'], "iscorrect"=>0],
+                ["question_id"=>$question->id,"option_text" => $request['option_2'], "iscorrect"=>0],
+                ["question_id"=>$question->id,"option_text" => $request['option_3'], "iscorrect"=>0],
+                ["question_id"=>$question->id,"option_text" => $request['option_4'], "iscorrect"=>0],
             ];
             $option = new Option();
+            $options_data[$request->iscorrect]['iscorrect'] = 1;
             $option->insert($options_data);
         }else{
             $key = 0;

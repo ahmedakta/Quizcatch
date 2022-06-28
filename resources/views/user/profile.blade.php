@@ -156,11 +156,13 @@
                            <p>{{$quiz->questions()->count()}} Questions</p>
                            <p>{{$quiz->result()->count()}} Catch count</p>
                           <span class="h5 g-color-gray-dark-v4 g-font-size-8">{{$quiz->created_at->diffForHumans()}}</span>
-                          </div>
+                        </div>
+                        <div style="margin:5px;">
+                          <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><span><i class="fa fa-eye"></i></span></a>
+                        </div>
                           <ul class="list-inline d-sm-flex my-0">
                             @if (Auth::user()->id == $user->id)
                             <div style="margin:5px;">
-                              <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" >Details</a>
                               <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
                               <form action="{{route('quiz.delete',$quiz)}}" method="POST">
                                 @csrf
@@ -194,35 +196,45 @@
                 <div class="media-body">
                   @if (count($posts)>0)
                   @foreach ($posts as $post)
+                  {{-- @if ($post->private !=)
+                      
+                  @endif --}}
                   <h5 class="media-heading mb20">{{$user->name}}
                     <small> {{$post->created_at->diffForHumans()}}</small>
                   </h5>
                   {{-- Content --}}
-                  @if ($post->image != null)
-                  <img class="card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap" style="height: 230px; width:400px; margin-bottom:10px">
-                  @endif
                   <div style="margin-bottom:10px">
                     {{$post->content}}
                   </div>
+                  @if ($post->image != null)
+                  <img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
+                  @elseif($post->video != null)
+                  <div style="max-width:100%;height:auto;">
+														<video width="100%" height="auto" controls>
+															<source src="{{URL::asset($post->video)}}" type="video/mp4" >
+														</video>
+                  </div>
+                    @endif
+                    <span><span><i class="fa fa-comment"></i></span></span> {{$post->comments->count()}}
                   <ul class="list-inline d-sm-flex my-0">
-                    @if (Auth::user()->id == $user->id)
-                    <div style="margin:5px;">
-                      <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
-                      <form action="{{route('post.delete',$post)}}" method="POST">
-                        @csrf
-                        @method('delete')
-                        <button class="btn btn-danger" type="submit">
-                          <span>
-                            <i class="fa fa-trash"></i>
-                          </span>
-                        </button>
-                      </form>
-                    </div>
-                  @endif
+                        @if (Auth::user()->id == $user->id)
+                        <div style="margin:5px;">
+                          <a href="#" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
+                          <form action="{{route('post.delete',$post)}}" method="POST">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger" type="submit">
+                              <span>
+                                <i class="fa fa-trash"></i>
+                              </span>
+                            </button>
+                          </form>
+                        </div>
+                        @endif
                   </ul>
                   <div>
-                    {{$post->likes->where('like', 1)->count()}} <span><i class="fa fa-thumbs-up"></i></span>
-                    {{$post->likes->where('like', 0)->count()}} <span><i class="fa fa-thumbs-down"></i></span>
+                    {{-- {{$post->likes->where('like', 1)->count()}} <span><i class="fa fa-thumbs-up"></i></span> todo--}}
+                    {{-- {{$post->likes->where('like', 0)->count()}} <span><i class="fa fa-thumbs-down"></i></span> --}}
                   </div>
                   <hr>
                   {{-- /Content --}}
@@ -230,10 +242,11 @@
                   @else
                   <div class="alert alert-warning" role="alert">
                     No Posts Yet.
-                    @if (Auth::user()->id == $user->id)                    
-                  <a href="{{route('home.posts')}}">Post Now</a>
+                        @if (Auth::user()->id == $user->id)                    
+                      <a href="{{route('home.posts')}}">Post Now</a>
+                        @endif
                   @endif
-                  </div>                 @endif
+                </div>              
                 </div>
               </div>
               {{-- <div id="messages" class="tab-pane">Messages</div>

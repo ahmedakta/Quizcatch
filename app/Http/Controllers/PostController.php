@@ -56,7 +56,7 @@ class PostController extends Controller
         $id = Auth::user()->id;
         $user = User::findOrFail($id);
         // $posts = Post::has('saves')->where('user_id',$id)->with('likes','saves')->latest()->get()->all(); 
-         $posts = Post::has('saves')->with('likes')->get()->all(); 
+        $posts = Save::where('user_id',Auth::user()->id)->latest()->get(); 
         //  dd($posts[0]->user_id);
         $quiz_count =Quiz::where('user_id',$id)->get()->count();
         $profile =Profile::where('user_id',$id)->first();

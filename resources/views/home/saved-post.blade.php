@@ -52,37 +52,39 @@
 								</ul>
 							</div>
 							@endif
-							@foreach ($posts as $post)
-							<article class="post" data-postid="{{$post->id}}">
+							@foreach ($posts as $saved_post)								
+							<article class="post" data-postid="{{$saved_post->id}}">
 								<div class="container" style="margin-top: 10px; ">
 									<div class="row">
 										<div class="col-md-8">
 											<div class="media g-mb-30 media-comment">
 												<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
 												  <div class="g-mb-15">
-													 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset($post->user->profile->photo)}}" alt="Image Description">
+													<a href="{{route('user.profile',$saved_post->post->user->user_name)}}"><img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset($saved_post->post->user->profile->photo)}}" alt="Image Description"></a>
 													 <div class="dropdown pull-right">
-														<i class="fa fa-bookmark"></i> {{$post->saves->where('post_id', $post->id)->first()->created_at->diffForHumans()}}
+														<i class="fa fa-bookmark"></i> {{$saved_post->created_at->diffForHumans()}}
 													  </div>
 													 <span class="g-color-gray-dark-v4">123 Followers - </span>
-													 <span class="g-color-gray-dark-v4" >{{$post->created_at->diffForHumans()}} - </span>
+													 <span class="g-color-gray-dark-v4" >{{$saved_post->post->created_at->diffForHumans()}} - </span>
 													 <span class="g-color-gray-dark-v4" >
-														 @if ($post->private != 0)
+														 @if ($saved_post->post->private != 0)
 														 <i class="fa fa-lock"></i>
 														 @else
 														 <i class="fa fa-globe" aria-hidden="true"></i>
 														 @endif	 
 														</span>
-														<h5 class="h5 g-color-gray-dark-v1 mb-0">{{$post->user->name}}</h5>
+														<h5 class="h5 g-color-gray-dark-v1 mb-0">{{$saved_post->post->user->name}}</h5>
 													
 													</div>
-													<p>{{$post->content}}</p>
-													@if ($post->image != null)
-													<img class="card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap" style="height: 310px; width:400px; margin-bottom:10px">
-													@elseif($post->video != null)
-														<video width="350" height="230" >
-															<source src="{{URL::asset($post->video)}}" type="video/mp4" >
-														</video>
+													<p>{{$saved_post->post->content}}</p>
+													@if ($saved_post->post->image != null)
+													<img class="media-body card-img-top" src="{{URL::asset($saved_post->post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
+													@elseif($saved_post->post->video != null)
+													<div style="max-width:100%;height:auto;">
+															<video width="100%" height="auto" controls>
+																<source src="{{URL::asset($saved_post->post->video)}}" type="video/mp4" >
+															</video>
+													</div>
 														{{-- @if ($errors->has('video'))
 															{{$errors->first('video')}}
 														@endif --}}
@@ -92,13 +94,10 @@
 														<form>
 															{{-- <div>{{$post->id}}</div> --}}
 															<div class="interaction">
-																{{$post->likes->where('like', 1)->count()}} <a href="#" id="isLike" data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" style="margin-right:20px; ">Like</a>
-																{{$post->likes->where('like', 0)->count()}} <a href="#" id="isLike"  data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" style="margin-right:20px">Dislike</a>
+																{{-- {{$post->likes->where('like', 1)->count()}} <a href="#" id="isLike" data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" style="margin-right:20px; ">Like</a> todo--}}
+																{{-- {{$post->likes->where('like', 0)->count()}} <a href="#" id="isLike"  data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" style="margin-right:20px">Dislike</a> --}}
 																{{-- <input  id="post_id" class="post_id" type="hidden" name="post_id" value="{{$post->id}}"> --}}
-																@if (Auth::user() == $post->user)
-																	<a href="{{ route('post.edit', ['post' => $post->id]) }}" class="edit">Edit</a> |
-																	<a href="{{ route('post.delete', ['post' => $post->id]) }}" class="delete">Delete</a>
-																@endif
+																	<a href="{{ route('post.delete', ['post' => $saved_post->id]) }}" class="delete"><span><i class="fa fa-trash"></i></span></a>
 															</div>
 															
 														</form>
@@ -106,8 +105,8 @@
 													</li>
 													<li class="list-inline-item ml-auto">
 													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-														<i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-														Comment
+														<span><i class="fa fa-comment"></i></span>
+														Comments
 													  </a>
 													</li>
 													{{-- <li class="list-inline-item ml-auto">

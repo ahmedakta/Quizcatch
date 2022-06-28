@@ -95,8 +95,6 @@ class QuizController extends Controller
                 'title'=>$request->title,
                 'end_time' => $request->end_time,
                 'explanation'=>$request->explanation,
-                'started_at'=>$request->started_at,
-                'stopped_at'=>$request->stopped_at,
             ]);
             $quiz->save();
         }else{
@@ -138,6 +136,9 @@ class QuizController extends Controller
     {
         // dd($quiz->questions()->count());
         $quiz =Quiz::find($quiz_id);
+        if($quiz ==null){
+            return redirect()->back();
+        }
         // dd($quiz);
         // $questions = $quiz->questions()->with(['options'=>function($query){
         //     $query->select('option_text','iscorrect');
@@ -213,9 +214,9 @@ class QuizController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function quiz_result($quiz_id)
+    public function quiz_result($quiz_slug)
     {
-        $quiz = Quiz::find($quiz_id);
+        $quiz = Quiz::where('slug',$quiz_slug)->get()->first();
         $owner = $quiz->user_id;
         if($owner == Auth::user()->id){
             $key = 0;
@@ -226,7 +227,7 @@ class QuizController extends Controller
             $profile =Profile::where('user_id',$id)->first();
             $user = User::find($id);
     
-            $results = Result::where('quiz_id',$quiz_id)->get()->all();
+            $results = Result::where('quiz_id',$quiz->id)->get()->all();
             return view('home.quizzes.results',compact('key','active_tabs','profile','user','quiz_count','quizzes','results','quiz'));
         }
         return redirect()->back()->with('message', "You Cant See This Quiz Results");            

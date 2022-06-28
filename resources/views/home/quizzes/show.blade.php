@@ -27,6 +27,7 @@
             {{$quiz->end_time}}
         </div>
         <a href="{{url()->previous()}}" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a href="{{route('quiz.catch',['quiz_id'=>$quiz->id,'quiz'=>$quiz->slug])}}" class="btn btn-info" onclick=" return confirm('Quiz has will start , Are you ready ');">Catch</a>
     </div>
 </div>
 

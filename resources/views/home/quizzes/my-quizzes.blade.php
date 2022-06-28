@@ -25,7 +25,7 @@
         <p>{{$item->explanation}}</p>
         <a href="{{route('questions.form',['id'=>$item->id,'slug'=>$item->slug])}}" class="btn btn-primary pull-right">({{$item->questions()->count()}}) Add Questions</a>
         <a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.show',$item)}}"><span><i class="fa fa-eye"></i></span></a>
-        <a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.result',['result_id'=>$item->id])}}">RESULTS</a>
+        <a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.result',$item)}}">RESULTS</a>
                </div>
             </div>
           </div>

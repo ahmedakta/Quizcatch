@@ -46,6 +46,7 @@ Route::post('save', [App\Http\Controllers\PostController::class, 'postSave'])->n
 Route::get('{user}/saved-posts', [App\Http\Controllers\PostController::class, 'saved_posts'])->name('saved.posts');
 Route::delete('post/{post:id}/delete', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.delete');
 Route::post('store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+Route::post('store/comment', [App\Http\Controllers\CommentController::class, 'store'])->name('post.comment');
 // POSTS LIKE
 Route::post('like', [App\Http\Controllers\PostController::class, 'postLikePost'])->name('post.like');
 // Tournmanent
@@ -58,7 +59,7 @@ Route::post('quiz/store', [App\Http\Controllers\QuizController::class, 'store'])
 Route::get('quizzes/{quiz:slug}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
 Route::delete('quiz/{quiz:id}/delete', [App\Http\Controllers\QuizController::class, 'destroy'])->name('quiz.delete');
 Route::get('{quiz_id}/{quiz}/catch', [App\Http\Controllers\QuizController::class, 'quiz_catch'])->name('quiz.catch');
-Route::get('{result_id}/results', [App\Http\Controllers\QuizController::class, 'quiz_result'])->name('quiz.result');
+Route::get('{result:slug}/results', [App\Http\Controllers\QuizController::class, 'quiz_result'])->name('quiz.result');
 Route::get('results', [App\Http\Controllers\QuizController::class, 'my_results'])->name('quiz.my-results');
 //questions
 Route::get('quizzes/{id}/{slug}/create-questions', [App\Http\Controllers\QuestionController::class, 'create'])->name('questions.form');

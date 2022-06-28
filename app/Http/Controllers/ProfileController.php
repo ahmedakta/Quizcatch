@@ -33,7 +33,8 @@ class ProfileController extends Controller
             return redirect()->back()->with('message', "User Not Found");            
         }
         $likes = Like::where('like',1)->get();
-        $posts = Post::where('user_id',$user->id)->get()->sortByDesc('created_at');
+        $public_posts = Post::where('user_id',$user->id)->get()->sortByDesc('created_at');
+        $posts = $public_posts->where('private',0)->all();
         $quizzes = Quiz::where('user_id',$user->id)->get();
         $quiz_count = Quiz::where('user_id',$user->id)->get()->count();
         $profile = $user->profile;

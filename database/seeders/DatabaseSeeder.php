@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Option;
+use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -50,9 +53,16 @@ class DatabaseSeeder extends Seeder
         // App\Models\Post::factory()->count(30)->create();
         // App\Models\Quiz::factory()->count(30)->create();
         \App\Models\User::factory()->count(10)->create();
-        \App\Models\Quiz::factory()->count(30)->create();
+
+        // \App\Models\Quiz::factory()->count(30)->create();
+        Quiz::factory(10)->has(
+            Question::factory(3)
+                ->has(Option::factory(4))
+        )->create();
         \App\Models\Post::factory()->count(10)->create();
-        \App\Models\Question::factory()->count(10)->create(['quiz_id'=>1]);
+        // \App\Models\Question::factory()->count(10)->create(['quiz_id'=>1]);
+
+
         // factory(App\Model\User::class, 50)->create();
         // factory(App\Model\Post::class, 50)->create();
         // factory(App\Models\Post::class, 50)->create();
