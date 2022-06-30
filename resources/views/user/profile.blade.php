@@ -171,7 +171,7 @@
                           <ul class="list-inline d-sm-flex my-0">
                             @if (Auth::user()->id == $user->id)
                             <div style="margin:5px;">
-                              <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
+                              <a href="{{route('quiz.edit',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
                               <form >
                                 @csrf
                                 <button class="btn btn-danger" data-post_id="{{$quiz->id}}" type="submit" id="delete_quiz" ><span><i class="fa fa-trash"></i></span></button>
@@ -223,7 +223,7 @@
                     <ul class="list-inline d-sm-flex my-0">
                           @if (Auth::user()->id == $user->id)
                           <div style="margin:5px;">
-                            <a href="#" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
+                            <a href="{{route('post.edit',$post)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
                             <form>
                               @csrf
                               <button class="btn btn-danger" data-post_id="{{$post->id}}" type="submit" id="delete_post" ><span><i class="fa fa-trash"></i></span></button>

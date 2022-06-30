@@ -81,7 +81,7 @@ class QuizController extends Controller
 
         // $imageName = time().'.'.$request->image->extension();
         // $request->image->move(public_path('images'), $imageName);
-
+        // dd($request->all());
         if($request->has('image')){
             $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -91,7 +91,7 @@ class QuizController extends Controller
             $photo->move('uploads/quizzes/images',$newPhoto);
             $quiz = Quiz::create([
                 'user_id'=>Auth::id(),
-                'image'=>'uploads/quizzes/images/'.$newPhoto,
+                'image'=> 'uploads/quizzes/images/'.$newPhoto,
                 'title'=>$request->title,
                 'end_time' => $request->end_time,
                 'explanation'=>$request->explanation,
@@ -159,9 +159,23 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        ///
+        $quiz = Quiz::where('slug',$slug)->get()->first();
+        if (!$quiz) {
+            return redirect()->back();
+        }
+        if ($quiz->user_id != Auth::user()->id) {
+            return redirect()->back();
+        }
+        $key = 1;
+        $active_tabs = 1;
+        $id = Auth::user()->id;
+        $profile =Profile::where('user_id',$id)->first();
+        // $likes = $posts->likes();
+        $user = User::find($id);
+        $quiz_count =Quiz::where('user_id',$id)->get()->count();
+        return view('home.quizzes.edit',compact('profile','user','quiz_count','key','active_tabs','quiz'));
     }
     public function submitQuiz(Request $request)
     {
@@ -206,9 +220,40 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // dd($request->all());
+        $quiz = Quiz::find($request->quiz);
+        $user_id = $quiz->user_id;
+        if ($user_id != Auth::user()->id) {
+            return redirect()->back();
+        }
+        $user = User::find($user_id);
+        
+        // start copy
+
+        if($request->has('image')){
+            $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+            $photo = $request->image;
+            $newPhoto = time().$photo->getClientOriginalName();
+            $photo->move('uploads/quizzes/images',$newPhoto);
+
+            $quiz->title = $request->title;
+            $quiz->explanation = $request->explanation;
+            $quiz->end_time = $request->end_time;
+            $quiz->save();
+        }else{
+            $quiz->title = $request->title;
+            $quiz->explanation = $request->explanation;
+            $quiz->end_time = $request->end_time;
+            $quiz->save();
+        }
+        // return  redirect()->route('quizzes');
+        return  redirect()->route('user.profile',$user)->with('success','Quiz updated successfully.');
+
+        // end copy
     }
 
     /**

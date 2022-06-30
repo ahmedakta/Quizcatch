@@ -82,7 +82,7 @@
 							<li><a href="{{route('about')}}">About</a></li>
                             @if (Route::has('login'))
                                 @auth
-                                <li class="btn-cta has-dropdown"><a href="{{route('user.profile',Auth::user()->user_name)}}"><span>{{Auth::user()->name}}</span></a>
+                                <li class="btn-cta has-dropdown"><a href="{{route('user.profile',Auth::user())}}"><span>{{Auth::user()->name}}</span></a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                   document.getElementById('logout-form').submit();">
@@ -342,7 +342,6 @@
 					</div>
           @elseif($key == 2)
           <div class="panel" style="margin-left:15px">
-							<button class="btn btn-primary pull-right">Make</button>
 							<ul class="nav nav-pills">
                   <li>  Tournaments</li>
 							</ul>
@@ -367,7 +366,7 @@
             <div class="row copyright">
                 <div class="col-md-12 text-center">
                     <p>
-                        <small class="block" title="Ahmed AKTA">&copy; 2022 AHMED AKTA</small> 
+                        <small class="block" title="Ahmed AKTA">&copy; 2022 WEBCATCH</small> 
                     </p>
                     <p>
                         <ul class="fh5co-social-icons">

@@ -118,4 +118,13 @@ class QuestionController extends Controller
         }
         return redirect()->back();
     }
+    public function destroy(Request $request)
+    {
+        $question = Question::find($request->question_id);
+        $quiz = Quiz::find($question->id);
+        // dd($quiz->title);
+        if($quiz->user_id == Auth::user()->id){
+            $question->Delete();
+        }
+    }
 }

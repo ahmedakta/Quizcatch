@@ -98,16 +98,13 @@
           <div class="container p-4 pb-0">
             <section class="">
               <p class="d-flex justify-content-center align-items-center">
-                <span class="me-3">Create Quiz for free</span>
-                <a type="button" href="{{route('register',app()->getLocale())}}" class="btn btn-outline-light btn-rounded" >
-                  Sign up!
-                </a>
+                <span class="me-3">Create Quiz For FREE</span>
               </p>
             </section>
           </div>
           <div class="text-center p-3" style="background-color: #cb5464;">
             © 2022
-            <a class="text-white" href="https://twitter.com/ahmd_akta" target="blank">AHMED AKTA</a>
+            <a class="text-white" href="https://twitter.com/ahmd_akta" target="blank">WEBCATCH</a>
           </div>
         </footer>
         <!-- Footer -->

@@ -166,7 +166,7 @@
             <div class="row copyright">
                 <div class="col-md-12 text-center">
                     <p>
-                        <small class="block">&copy; 2022 AHMED AKTA</small> 
+                        <small class="block">&copy; 2022 WEBCATCH</small> 
                     </p>
                     <p>
                         <ul class="fh5co-social-icons">

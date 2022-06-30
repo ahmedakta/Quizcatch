@@ -22,11 +22,20 @@ class DatabaseSeeder extends Seeder
              'name' => 'ahmed',
              'user_name' => 'ahmed',
              'email'=> 'ahmed@gmail.com',
+             'role'=> 2,
+             'password' => '$2y$10$c8vEZwYV.gRnTqvE6ipLPuIbNZC/e5Q/eWlsM5xeH9tPhNIxO8npS', // asdasdasd
+         ]);
+         \App\Models\User::create([
+             'name' => 'admin',
+             'user_name' => 'admin',
+             'email'=> 'admin@gmail.com',
+             'role'=> 1,
              'password' => '$2y$10$c8vEZwYV.gRnTqvE6ipLPuIbNZC/e5Q/eWlsM5xeH9tPhNIxO8npS', // asdasdasd
          ]);
          \App\Models\User::create([
             'name' => 'abuhmed',
             'user_name'=>'abuhmed',
+            'role'=> 2,
             'email'=> 'abuhmed@gmail.com',
             'password' => '$2y$10$c8vEZwYV.gRnTqvE6ipLPuIbNZC/e5Q/eWlsM5xeH9tPhNIxO8npS', // asdasdasd
         ]);
@@ -44,6 +53,16 @@ class DatabaseSeeder extends Seeder
             'id' => '2',
             'user_id'=> '2',
             'phone_number'=> '41232141',
+            'about'=> 'i am admin i am using quizcatch',
+            'gender'=> 'Male',
+            'photo'=> 'media/photo2.jpeg',
+            'date_of_birth'=> '10.10.2000',
+            'education'=> '',
+        ]);
+        \App\Models\Profile::create([
+            'id' => '3',
+            'user_id'=> '3',
+            'phone_number'=> '41232141',
             'about'=> 'i am abuhmed i am using quizcatch',
             'gender'=> 'Male',
             'photo'=> 'media/photo2.jpeg',
@@ -52,7 +71,7 @@ class DatabaseSeeder extends Seeder
         ]);
         // App\Models\Post::factory()->count(30)->create();
         // App\Models\Quiz::factory()->count(30)->create();
-        \App\Models\User::factory()->count(10)->create();
+        \App\Models\User::factory()->count(200)->create();
 
         // \App\Models\Quiz::factory()->count(30)->create();
         Quiz::factory(10)->has(

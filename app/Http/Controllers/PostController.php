@@ -131,39 +131,39 @@ class PostController extends Controller
         // dd($user->name);
     }
 
-    public function postLikePost(Request $request)
-    {
+    // public function postLikePost(Request $request)
+    // {
         
-        // $user_id = $request['userId'];
-        $post_id = $request->post_id;
-        $is_like = $request['isLike'] === 'true';
-        $update = false;
-        $post = Post::find($post_id);
-        if(!$post){
-            return null;
-        }
-        $user = Auth::user();
-        $like = $user->likes()->where('post_id',$post_id)->first();
-        if($like){
-            $already_like = $like->like;
-            $update = true;
-            if($already_like == $is_like){
-                $like->delete();
-                return null;
-            }
-        }else{
-              $like = new Like();
-            }
-            $like -> like =  $is_like;
-            $like->user_id = $user->id;
-            $like->post_id= $request->post_id;
-            if($update){
-                $like->update();
-            }else{
-                $like->save();
-            }
-            return null;
-    }
+    //     // $user_id = $request['userId'];
+    //     $post_id = $request->post_id;
+    //     $is_like = $request['isLike'] === 'true';
+    //     $update = false;
+    //     $post = Post::find($post_id);
+    //     if(!$post){
+    //         return null;
+    //     }
+    //     $user = Auth::user();
+    //     $like = $user->likes()->where('post_id',$post_id)->first();
+    //     if($like){
+    //         $already_like = $like->like;
+    //         $update = true;
+    //         if($already_like == $is_like){
+    //             $like->delete();
+    //             return null;
+    //         }
+    //     }else{
+    //           $like = new Like();
+    //         }
+    //         $like -> like =  $is_like;
+    //         $like->user_id = $user->id;
+    //         $like->post_id= $request->post_id;
+    //         if($update){
+    //             $like->update();
+    //         }else{
+    //             $like->save();
+    //         }
+    //         return null;
+    // }
     public function postComments(Post $post)
     {
         $key = 1;
@@ -218,7 +218,50 @@ class PostController extends Controller
     }
     public function edit($id)
     {
-        return view('home.posts.form');
+        $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::user()->id) {
+            return redirect()->back();
+        }
+        $key = 1;
+        $active_tabs = 1;
+        $id = Auth::user()->id;
+        $profile =Profile::where('user_id',$id)->first();
+        // $likes = $posts->likes();
+        $user = User::find($id);
+        $quiz_count =Quiz::where('user_id',$id)->get()->count();
+        return view('home.posts.form',compact('profile','user','quiz_count','key','active_tabs','post'));
+    }
+    public function update(Request $request)
+    {
+        $post = Post::find($request->post);
+        $user_id = $post->user_id;
+        if ($user_id != Auth::user()->id) {
+            return redirect()->back();
+        }
+        $user = User::find($user_id);
+        if ($request->has('image')) {
+            $photo = $request->image;
+            $newPhoto = time().$photo->getClientOriginalName();
+            $photo->move('uploads/posts/images',$newPhoto);
+            //to do work on validate old password and new password confirmation.
+            $post->image = 'uploads/posts/images/'.$newPhoto;
+            $post->content = $request->content;
+            $post->save();
+        }else if($request->has('video')){
+            $request->validate([
+                'video' => 'required | mimes:mp4',
+            ]);
+            $file= $request->file('video');
+            $newVideo = time().$file->getClientOriginalName();
+            $file->move('uploads/posts/videos',$newVideo);
+            $post->video = 'uploads/posts/videos/'.$newVideo;
+            $post->content = $request->content;
+            $post->save();
+        }else{
+            $post->content = $request->content;
+            $post->save();
+        }
+        return redirect()->route('user.profile',$user)->with('success','Updated successfully.'); 
     }
     public function destroy_savedPost(Request $request)
     {
