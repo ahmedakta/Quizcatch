@@ -234,13 +234,14 @@ class QuizController extends Controller
 
         if($request->has('image')){
             $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);
             $photo = $request->image;
             $newPhoto = time().$photo->getClientOriginalName();
             $photo->move('uploads/quizzes/images',$newPhoto);
 
             $quiz->title = $request->title;
+            $quiz->image = 'uploads/quizzes/images/'.$newPhoto;
             $quiz->explanation = $request->explanation;
             $quiz->end_time = $request->end_time;
             $quiz->save();
