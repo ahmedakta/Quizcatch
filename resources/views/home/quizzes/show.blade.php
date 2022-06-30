@@ -20,12 +20,14 @@
         {{$quiz->result()->count()}} Catch count
 
         </div>
+        @if ($quiz->end_time != null)    
         <h3>
             stopped at
         </h3>
         <div>
             {{$quiz->end_time}}
         </div>
+        @endif
         <a href="{{url()->previous()}}" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
         <a href="{{route('quiz.catch',['quiz_id'=>$quiz->id,'quiz'=>$quiz->slug])}}" class="btn btn-info" onclick=" return confirm('Quiz has will start , Are you ready ');">Catch</a>
     </div>

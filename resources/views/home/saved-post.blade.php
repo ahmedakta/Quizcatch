@@ -4,22 +4,6 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-
-{{-- <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <div class="test"></div>
-    </div>
-  </div>
-</nav>
-
-<style>
-	.test:after {
-  content: '\2807';
-  font-size: 3em;
-  color: #2e2e2e
-}
-</style> --}}
 						@if ($message = Session::get('success'))
 						<div class="message alert alert-success alert-block">
 							<button type="button" class="close" data-dismiss="alert"></button>
@@ -54,7 +38,7 @@
 							@endif
 							@foreach ($posts as $saved_post)								
 							<article class="post" data-postid="{{$saved_post->id}}">
-								<div class="container" style="margin-top: 10px; ">
+								<div class="container" id='{{$saved_post->id}}' style="margin-top: 10px; ">
 									<div class="row">
 										<div class="col-md-8">
 											<div class="media g-mb-30 media-comment">
@@ -64,7 +48,6 @@
 													 <div class="dropdown pull-right">
 														<i class="fa fa-bookmark"></i> {{$saved_post->created_at->diffForHumans()}}
 													  </div>
-													 <span class="g-color-gray-dark-v4">123 Followers - </span>
 													 <span class="g-color-gray-dark-v4" >{{$saved_post->post->created_at->diffForHumans()}} - </span>
 													 <span class="g-color-gray-dark-v4" >
 														 @if ($saved_post->post->private != 0)
@@ -92,22 +75,23 @@
 												  <ul class="list-inline d-sm-flex my-0">
 													<li class="list-inline-item g-mr-20">
 														<form>
+															@csrf
+															<button class="btn btn-danger" data-post_id="{{$saved_post->id}}" type="submit" id="delete_saved_post" ><span><i class="fa fa-trash"></i></span></button>
 															{{-- <div>{{$post->id}}</div> --}}
 															<div class="interaction">
 																{{-- {{$post->likes->where('like', 1)->count()}} <a href="#" id="isLike" data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" style="margin-right:20px; ">Like</a> todo--}}
 																{{-- {{$post->likes->where('like', 0)->count()}} <a href="#" id="isLike"  data-id="{{$post->id}}" type="submit" class="like fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" style="margin-right:20px">Dislike</a> --}}
-																{{-- <input  id="post_id" class="post_id" type="hidden" name="post_id" value="{{$post->id}}"> --}}
-																	<a href="{{ route('post.delete', ['post' => $saved_post->id]) }}" class="delete"><span><i class="fa fa-trash"></i></span></a>
+
 															</div>
 															
 														</form>
 														
 													</li>
 													<li class="list-inline-item ml-auto">
-													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-														<span><i class="fa fa-comment"></i></span>
-														Comments
-													  </a>
+														<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="{{route('post.comments',$saved_post->post)}}">
+															<span><i class="fa fa-comment"></i></span>
+															Comments
+														</a>
 													</li>
 													{{-- <li class="list-inline-item ml-auto">
 													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
@@ -125,6 +109,7 @@
 								</article>							
 							@endforeach
 						   @endif
+						   
 						   <style>
 							   .media-body{
 								   border-radius:25px;
@@ -166,81 +151,32 @@
 .show {display: block;}
 						   </style>
 					<script>
-												/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-						var postId = 0;
-						// $('.post').find('.interaction').find('.delete').on('click',function(event){
-						// 	event.preventDefault();
-							// postId = event.target.parentNode.parentNode.dataset['postid'];
-						// });
-						$('div.message').delay(4000).slideUp(300); //time to success message
-						// Like Dislike Actions
-						 var urlLike = '{{route('post.like')}}';
-						$('.like').on('click',function(event){
-							event.preventDefault();
-							var isLike = event.target.previousElementSibling == null;
-							// console.log(isLike);
-							$.ajaxSetup({
-								headers: {
-									'X-CSRF-TOKEN': "{{ csrf_token() }}"
+						//delete post
+						$(document).on('click','#delete_saved_post',function(e){
+							e.preventDefault();
+							// var comment_input = $('#comment_input').val();        
+							var formData = {
+								 save_id : $(this).data("post_id"),
+								_token: "{{ csrf_token() }}",               
+								dataType: 'json', 
+								contentType:'application/json',
+						};     
+						var post_id = $(this).data("post_id");
+						var urlDeleteSave = '{{route('saved.delete',':post_id')}}';
+								$.ajax({ 
+									type : 'DELETE',
+									url : urlDeleteSave,
+									data: formData,
+									success:function(data){
+									document.getElementById(post_id).style.display = "none";
+						},
+									error:function(reject){
+						
 									}
-								});
-								var formData = {
-									post_id: $(this).data("id"),
-									isLike: isLike, 
-									contentType: "application/json; charset=utf-8",
-									enctype: 'multipart/form-data',                
-								};   
-								console.log(formData);
-							$.ajax({
-								type: 'POST',
-								url: urlLike,
-								data: formData,
-								success:function(data){
-								$("#msg").html(data.msg);
-								},
-								error:function(reject){
-								}
-								 //Post Id For Learn Which Post We Do actions On ther.
-							})
-								.done(function(){
-									//Change The Page
-									event.target.innerText = isLike ? event.target.innerText == 'Like' ? 'You liked this post' : 'Like' : event.target.innerText == 'Dislike' ? 'You don\'t liked this post' : 'Dislike' ;
-									if(isLike){
-												event.target.nextElementSibling.innerText == 'Dislike';
-									}else{
-										event.target.previousElementSibling.innerText == 'Like';
-									}
-									// if(isLike){
-									// 	$('a.like.fa-thumbs-up').bind('style', function(e) {
-									// 		console.log( $(this).attr('style') );
-									// 	});
-									// 	$('a.like.fa-thumbs-up').css('color','#0080F0');
-									// }else{
-									// 	event.target.previousElementSibling.innerText == 'Like';
-									// }
-								});
-						});
+								})
+							});
 
 
-						// /Like Dislike Actions
 					</script>
 						   {{-- End Post Page --}}
 						 {{-- end right nav --}}                             

@@ -54,19 +54,13 @@
 							@endif
 							@foreach ($posts as $post)
 							<article class="post" data-postid="{{$post->id}}">
-								<div class="container" style="margin-top: 10px; ">
+								<div class="container" id='{{$post->id}}' style="margin-top: 10px; ">
 									<div class="row">
 										<div class="col-md-8">
 											<div class="media g-mb-30 media-comment">
 												<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
 												  <div class="g-mb-15">
 													 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{asset($post->user->profile->photo)}}" alt="Image Description">
-													 <div class="pull-right">
-														<form>
-															<a href="#" id="isSave" data-id="{{$post->id}}" type="submit" class="save fa fa-bookmark" style="margin-right:20px;"> Save</a>
-														</form>
-													 </div>
-													 <span class="g-color-gray-dark-v4">123 Followers - </span>
 													 <span class="g-color-gray-dark-v4" >{{$post->created_at->diffForHumans()}} - </span>
 													 <span class="g-color-gray-dark-v4" >
 														@if ($post->private != 0)
@@ -92,21 +86,14 @@
 														@endif --}}
 													@endif
 												  <ul class="list-inline d-sm-flex my-0">
-													<form action="{{route('post.delete',$post)}}" method="POST">
+													@if (Auth::user()->id == $user->id)
+													<div style="margin:5px;" >
+													  <form>
 														@csrf
-														@method('delete')
-														<button class="btn btn-danger pull-left" type="submit">
-														  <span>
-															<i class="fa fa-trash"></i>
-														  </span>
-														</button>
-													</form>
-													<li class="list-inline-item ml-auto" style="margin-top: 5px">
-													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-														<i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-														Comments
-													  </a>
-													</li>
+														<button class="btn btn-danger pull-left" data-post_id="{{$post->id}}" type="submit" id="delete_post" ><span><i class="fa fa-trash"></i></span></button>
+													  </form>
+													</div>
+													@endif
 													{{-- <li class="list-inline-item ml-auto">
 													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
 														<i class="fa fa-bookmark"></i>
@@ -190,100 +177,33 @@ window.onclick = function(event) {
 						// });
 						$('div.message').delay(4000).slideUp(300); //time to success message
 						// Like Dislike Actions
-						 var urlLike = '{{route('post.like')}}';
-						$('.like').on('click',function(event){
-							event.preventDefault();
-							var isLike = event.target.previousElementSibling == null;
-							// console.log(isLike);
-							$.ajaxSetup({
-								headers: {
-									'X-CSRF-TOKEN': "{{ csrf_token() }}"
-									}
-								});
-								var formData = {
-									post_id: $(this).data("id"),
-									isLike: isLike, 
-									contentType: "application/json; charset=utf-8",
-									enctype: 'multipart/form-data',                
-								};   
-								console.log(formData);
-							$.ajax({
-								type: 'POST',
-								url: urlLike,
-								data: formData,
-								success:function(data){
-								$("#msg").html(data.msg);
-								},
-								error:function(reject){
-								}
-								 //Post Id For Learn Which Post We Do actions On ther.
-							})
-								.done(function(){
-									//Change The Page
-									event.target.innerText = isLike ? event.target.innerText == 'Like' ? 'You liked this post' : 'Like' : event.target.innerText == 'Dislike' ? 'You don\'t liked this post' : 'Dislike' ;
-									if(isLike){
-												event.target.nextElementSibling.innerText == 'Dislike';
-									}else{
-										event.target.previousElementSibling.innerText == 'Like';
-									}
-									// if(isLike){
-									// 	$('a.like.fa-thumbs-up').bind('style', function(e) {
-									// 		console.log( $(this).attr('style') );
-									// 	});
-									// 	$('a.like.fa-thumbs-up').css('color','#0080F0');
-									// }else{
-									// 	event.target.previousElementSibling.innerText == 'Like';
-									// }
-								});
-						});
-						// Post Save
-						var urlSave = '{{route('post.save')}}';
-						$('.save').on('click',function(event){
-							event.preventDefault();
-							var isSave = event.target.previousElementSibling == null;
-							console.log(isSave);
-							$.ajaxSetup({
-								headers: {
-									'X-CSRF-TOKEN': "{{ csrf_token() }}"
-									}
-								});
-								var formData = {
-									post_id: $(this).data("id"),
-									isSave: isSave,
-									contentType: "application/json; charset=utf-8",
-									enctype: 'multipart/form-data',                
-								};   
-								console.log(formData);
-							$.ajax({
-								type: 'POST',
-								url:urlSave,
-								data: formData,
-								success:function(data){
-								$("#msg").html(data.msg);
-								},
-								error:function(reject){
-								}
-								 //Post Id For Learn Which Post We Do actions On ther.
-							})
-								.done(function(){
-									//Change The Page
-									// event.target.innerText = isSave ? event.target.innerText == 'Save' ? 'Saved' : 'Save';
-									// if(isSave){
-									// 	event.target.nextElementSibling.innerText == 'Saved';
-									// }else{
-									// 	event.target.previousElementSibling.innerText == 'Save';
-									// }
-									// if(isLike){
-									// 	$('a.like.fa-thumbs-up').bind('style', function(e) {
-									// 		console.log( $(this).attr('style') );
-									// 	});
-									// 	$('a.like.fa-thumbs-up').css('color','#0080F0');
-									// }else{
-									// 	event.target.previousElementSibling.innerText == 'Like';
-									// }
-								});
-						});
 
+
+
+						//delete 
+						$(document).on('click','#delete_post',function(e){
+							e.preventDefault();
+							// var comment_input = $('#comment_input').val();        
+							var formData = {
+								 post_id : $(this).data("post_id"),
+								_token: "{{ csrf_token() }}",               
+								dataType: 'json', 
+								contentType:'application/json',
+						};     
+						var post_id = $(this).data("post_id");
+						var urlDeletePost = '{{route('post.delete',':post_id')}}';
+								$.ajax({ 
+									type : 'DELETE',
+									url : urlDeletePost,
+									data: formData,
+									success:function(data){
+									document.getElementById(post_id).style.display = "none";
+						},
+									error:function(reject){
+						
+									}
+								})
+							});
 
 						// /Like Dislike Actions
 					</script>

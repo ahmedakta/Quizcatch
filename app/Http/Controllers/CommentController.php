@@ -11,6 +11,9 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
+        $request->validate([
+                'content' => 'required|string|min:1|max:80',
+            ]);
         $post_id  =$request->post_id;
         $comment = Comment::create([
             'user_id'=>Auth::user()->id,
@@ -19,5 +22,18 @@ class CommentController extends Controller
         ]);
         $comment->save();
         return null;
+    }
+    public function destroy(Request $request)
+    {
+        $comment = Comment::find($request->comment_id);
+        $post = Post::find($comment->post_id);
+
+        if($post->user_id == Auth::user()->id){
+            $comment->Delete();
+        }
+        if($comment->user_id == Auth::user()->id){
+            $comment->Delete();
+        }
+
     }
 }

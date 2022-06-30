@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-  {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
+
 	<head>
         <meta charset="utf-8">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -13,29 +13,14 @@
         <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
         <meta name="author" content="FreeHTML5.co" />
         {{--  --}}
-        <!-- CSRF Token -->
+
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-        {{--  --}}
-        <!-- 
-        //////////////////////////////////////////////////////
-    
-        FREE HTML5 TEMPLATE 
-        DESIGNED & DEVELOPED by FreeHTML5.co
-            
-        Website: 		http://freehtml5.co/
-        Email: 			info@freehtml5.co
-        Twitter: 		http://twitter.com/fh5co
-        Facebook: 		https://www.facebook.com/fh5co
-    
-        //////////////////////////////////////////////////////
-         -->
-    
-          <!-- Facebook and Twitter integration -->
+      
         <meta property="og:title" content=""/>
         <meta property="og:image" content=""/>
         <meta property="og:url" content=""/>
@@ -68,10 +53,7 @@
     
         <!-- Modernizr JS -->
         <script src="{{asset('homepage/js/modernizr-2.6.2.min.js')}}"></script>
-        <!-- FOR IE9 below -->
-        <!--[if lt IE 9]>
-        <script src="js/respond.min.js"></script>
-        <![endif]-->
+
         <link  type="text/css" href="{{asset('css/tabe.css')}}" rel="stylesheet">
         <link  type="text/css" href="{{asset('css/post.css')}}" rel="stylesheet">
         </head>
@@ -245,7 +227,9 @@
                             @endif
                                   <div class="ml-3" style="margin-left: 10px">
                                       <h5 class="name">{{$user->name}}</h5>
-                                      <p class="mail">{{$user->email}}</p>
+                                      <div style="width:150px;overflow:hidden;height:50px;line-height:50px;">
+                                        <p>{{$user->email}}</p>
+                                      </div>
                                   </div>
                               </div>
                               <div class="middle-container d-flex justify-content-between align-items-center mt-3 p-2">
@@ -303,10 +287,11 @@
                     {{-- starts right nav --}}   	
           @if($key==0)
 					<div class="panel" style="margin-left:15px">
-             
-							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-quizzes')}}"  style=" margin : 15px" >My Quizzes</a>
-							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-results')}}"  style=" margin : 15px" >Catched</a>
-							<a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.create')}}" style=" margin : 15px">Create</a>
+             <div style="padding-top: 10px">
+							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-quizzes')}}">My Quizzes</a>
+							<a type="btn btn-primary" class="btn btn-primary pull-right" href="{{route('quiz.my-results')}}">My Results</a>
+							<a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('quiz.create')}}">Create</a>
+             </div>
               <form action="#" method="GET">
                 <button class="btn btn-light" type="submit" style="margin: 15px;"><i class="fa fa-search"></i></button>
                 <div class="input-group pull-left">
@@ -382,7 +367,7 @@
             <div class="row copyright">
                 <div class="col-md-12 text-center">
                     <p>
-                        <small class="block" title="Ahmet AKTA">&copy; 2022 AKTA</small> 
+                        <small class="block" title="Ahmed AKTA">&copy; 2022 AHMED AKTA</small> 
                     </p>
                     <p>
                         <ul class="fh5co-social-icons">

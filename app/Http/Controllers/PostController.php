@@ -164,12 +164,33 @@ class PostController extends Controller
             }
             return null;
     }
+    public function postComments(Post $post)
+    {
+        $key = 1;
+        $active_tabs = 1;
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $quiz_count =Quiz::where('user_id',$id)->get()->count();
+        $profile =Profile::where('user_id',$id)->first();
+        $post = Post::find($post->id);
+        if ($post->private == 1) {
+            return redirect()->back();
+        }
+        $comments = Post::find($post->id)->comments()->with('user')->get();
+        // $postss = $post->with('comments')->get();
+
+        // dd($user->name);
+        return view('home.posts.comments',compact('post','key','active_tabs','user','profile','quiz_count','comments'));
+    }
     public function postSave(Request $request)
     {
         $post_id = $request->post_id;
         $is_save = $request['isSave'] === 'true';
         $update = false;
         $post = Post::find($post_id);
+        if ($post->private==1) {
+            return redirect()->back();
+        }
         if(!$post){
             return null;
         }
@@ -199,18 +220,30 @@ class PostController extends Controller
     {
         return view('home.posts.form');
     }
-    public function destroy(Post $post)
+    public function destroy_savedPost(Request $request)
+    {
+        $post = Save::findOrFail($request->save_id);
+        if($post->user_id == Auth::user()->id){
+                $post->Delete();
+        }
+    }
+    public function destroy(Request $request)
     {
         // dd('post');
-        $post = Post::findOrFail($post->id);
+        // $post = Post::findOrFail($post->id);
+        // // dd($quiz->title);
+        // if($post->user_id == Auth::user()->id){
+        //     $quizDeleted = $post->Delete();
+        //     if ($quizDeleted) {
+        //         return back()->with('message','deleted');
+        //     }
+        // }else{
+        //     return back()->with('message', 'Seems to have gotten a problem');
+        // }
+        $post = Post::find($request->post_id);
         // dd($quiz->title);
         if($post->user_id == Auth::user()->id){
-            $quizDeleted = $post->Delete();
-            if ($quizDeleted) {
-                return back()->with('message','deleted');
-            }
-        }else{
-            return back()->with('message', 'Seems to have gotten a problem');
+            $post->Delete();
         }
     }
 }

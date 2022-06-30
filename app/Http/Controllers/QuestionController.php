@@ -26,6 +26,9 @@ class QuestionController extends Controller
         // dd($request->id);
         $quiz_id = $request->id;
         $quiz = Quiz::find($request->id);
+        if(!$quiz){
+            return redirect()->back();
+        }
         if ($quiz->user_id != Auth::user()->id) {
             return redirect()->back();
         }

@@ -47,6 +47,9 @@ Route::get('{user}/saved-posts', [App\Http\Controllers\PostController::class, 's
 Route::delete('post/{post:id}/delete', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.delete');
 Route::post('store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
 Route::post('store/comment', [App\Http\Controllers\CommentController::class, 'store'])->name('post.comment');
+Route::get('post/{post:id}/comments', [App\Http\Controllers\PostController::class, 'postComments'])->name('post.comments');
+Route::delete('comment/{comment:id}/delete', [App\Http\Controllers\CommentController::class, 'destroy'])->name('comment.delete');
+Route::delete('saved-post/{id}/delete', [App\Http\Controllers\PostController::class, 'destroy_savedPost'])->name('saved.delete');
 // POSTS LIKE
 Route::post('like', [App\Http\Controllers\PostController::class, 'postLikePost'])->name('post.like');
 // Tournmanent

@@ -84,8 +84,6 @@
 		
 	</div>
 </div>
-<div id="map" class="fh5co-map"></div>
-
 
 <div id="fh5co-started" style="background-image:url(images/img_bg_2.jpg);">
 	<div class="overlay"></div>
@@ -93,7 +91,7 @@
 		<div class="row animate-box">
 			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 				<h2>About</h2>
-				<p>Quizcatch was developed by Ahmed Akta when their first-year university student.</p>
+				<p>Quizcatch is a platform for make quiz quickly and see other people results.</p>
 			</div>
 		</div>
 		{{-- <div class="row animate-box">

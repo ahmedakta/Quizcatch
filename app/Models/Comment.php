@@ -15,8 +15,10 @@ class Comment extends Model
         'content',
     ];
 
-    
-    public function posts(){
-        return $this->hasMany('App\Models\Post','post_id');
+    public function post(){
+        return $this->belongTo('App\Models\Post','post_id');
+    }
+    public function user(){
+        return $this->belongsTo('App\Models\User','user_id');
     }
 }

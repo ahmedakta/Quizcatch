@@ -101,15 +101,15 @@
 														</form> --}}
 													</li>
 													<li class="list-inline-item ml-auto">
-													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-														<span><span><i class="fa fa-comment"></i></span></span>
+													  <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="{{route('post.comments',$post)}}">
+														<span><i class="fa fa-comment"></i></span>
 														Comments
 													  </a>
 													</li>
 													<form class="ajaxComment">
 														@csrf
 														<div class="d-flex flex-row add-comment-section mt-4 mb-4" style="margin-top:20px;margin-bottom:10px">
-															<input type="text" id='comment_input' class="comment form-control mr-3" placeholder="Add comment"  name="content">
+															<input type="text" id='comment_input' class="comment form-control mr-3" placeholder="Add comment"  name="content" maxlength="80">
 															<button class="btn btn-info" data-post_id="{{$post->id}}" type="submit" id="comment" ><span><i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i></span></button>
 														</div>
 													</form>

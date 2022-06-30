@@ -15,8 +15,8 @@
           </div>                      
           <div class="media-body va-m">
             <h2 class="media-heading">{{$user->name}}</h2>
-            <small> - Profile</small>
-            <p>User Name :  {{$user->user_name}}</p>
+            <small>User Name:</small>
+            <p> {{$user->user_name}}</p>
             <p class="lead">{{$user->profile->about}}</p>
             {{-- <div class="media-links">
               <ul class="list-inline list-unstyled">
@@ -94,17 +94,25 @@
               </span>
             </div>
             <div class="panel-body pb5">
+              @if ($user->profile->gender != null)
               <h4>Gender : {{$user->profile->gender}}</h4>
+              @endif
+              @if ($user->profile->date_of_birth != null)
               <h4>Birth Date : {{$user->profile->date_of_birth}}</h4>
-              <h4>Phone Number : {{$user->profile->phone_number}}</h4>
+              @endif
+              @if ($user->profile->phone_number !=null)
+                  <h4>Phone Number : {{$user->profile->phone_number}}</h4>
+              @endif
               <h4>{{$user->quizzes->count()}} Quizzes</h4>
               <h4>{{$user->posts->count()}} Posts</h4>
               <hr class="short br-lighter">
+              @if ($user->profile->education != null)      
               <h6>Education</h6>
 
               <h4>{{$user->profile->education}}</h4>
 
               <hr class="short br-lighter">
+              @endif
 
               <h6>Rewards</h6>
               {{-- @if ($accomplishment_status['text']) --}}
@@ -145,7 +153,7 @@
               <div id="quizzes" class="tab-pane active">
               @if (count($quizzes)>0)
                 @foreach ($quizzes as $quiz)
-                <div class="container" style="margin-top: 10px;  ">
+                <div class="container" id='{{$quiz->id}}' style="margin-top: 10px;  ">
                   <div class="row">
                     <div class="col-md-8">
                       <div class="media g-mb-30 media-comment" style="border-radius: 25px;"">
@@ -164,14 +172,9 @@
                             @if (Auth::user()->id == $user->id)
                             <div style="margin:5px;">
                               <a href="{{route('quiz.show',$quiz)}}" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
-                              <form action="{{route('quiz.delete',$quiz)}}" method="POST">
+                              <form >
                                 @csrf
-                                @method('delete')
-                                <button class="btn btn-danger" type="submit">
-                                  <span>
-                                    <i class="fa fa-trash"></i>
-                                  </span>
-                                </button>
+                                <button class="btn btn-danger" data-post_id="{{$quiz->id}}" type="submit" id="delete_quiz" ><span><i class="fa fa-trash"></i></span></button>
                               </form>
                             </div>
                             @endif
@@ -199,45 +202,42 @@
                   {{-- @if ($post->private !=)
                       
                   @endif --}}
-                  <h5 class="media-heading mb20">{{$user->name}}
-                    <small> {{$post->created_at->diffForHumans()}}</small>
-                  </h5>
-                  {{-- Content --}}
-                  <div style="margin-bottom:10px">
-                    {{$post->content}}
+                  <div id='post/{{$post->id}}'>
+                    <h5 class="media-heading mb20">{{$user->name}}
+                      <small> {{$post->created_at->diffForHumans()}}</small>
+                    </h5>
+                    {{-- Content --}}
+                    <div style="margin-bottom:10px">
+                      {{$post->content}}
+                    </div>
+                    @if ($post->image != null)
+                    <img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
+                    @elseif($post->video != null)
+                    <div style="max-width:100%;height:auto;">
+                              <video width="100%" height="auto" controls>
+                                <source src="{{URL::asset($post->video)}}" type="video/mp4" >
+                              </video>
+                    </div>
+                      @endif
+                      <span><a  href="{{route('post.comments',$post)}}" style="color: gray"><i class="fa fa-comment"></i></a></span> {{$post->comments->count()}}
+                    <ul class="list-inline d-sm-flex my-0">
+                          @if (Auth::user()->id == $user->id)
+                          <div style="margin:5px;">
+                            <a href="#" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
+                            <form>
+                              @csrf
+                              <button class="btn btn-danger" data-post_id="{{$post->id}}" type="submit" id="delete_post" ><span><i class="fa fa-trash"></i></span></button>
+                            </form>
+                          </div>
+                          @endif
+                    </ul>
+                    <div>
+                      {{-- {{$post->likes->where('like', 1)->count()}} <span><i class="fa fa-thumbs-up"></i></span> todo--}}
+                      {{-- {{$post->likes->where('like', 0)->count()}} <span><i class="fa fa-thumbs-down"></i></span> --}}
+                    </div>
+                    <hr>
+                    {{-- /Content --}}
                   </div>
-                  @if ($post->image != null)
-                  <img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
-                  @elseif($post->video != null)
-                  <div style="max-width:100%;height:auto;">
-														<video width="100%" height="auto" controls>
-															<source src="{{URL::asset($post->video)}}" type="video/mp4" >
-														</video>
-                  </div>
-                    @endif
-                    <span><span><i class="fa fa-comment"></i></span></span> {{$post->comments->count()}}
-                  <ul class="list-inline d-sm-flex my-0">
-                        @if (Auth::user()->id == $user->id)
-                        <div style="margin:5px;">
-                          <a href="#" class="btn btn-info pull-left" type="submit" ><i class="fa fa-pencil"></i></a>
-                          <form action="{{route('post.delete',$post)}}" method="POST">
-                            @csrf
-                            @method('delete')
-                            <button class="btn btn-danger" type="submit">
-                              <span>
-                                <i class="fa fa-trash"></i>
-                              </span>
-                            </button>
-                          </form>
-                        </div>
-                        @endif
-                  </ul>
-                  <div>
-                    {{-- {{$post->likes->where('like', 1)->count()}} <span><i class="fa fa-thumbs-up"></i></span> todo--}}
-                    {{-- {{$post->likes->where('like', 0)->count()}} <span><i class="fa fa-thumbs-down"></i></span> --}}
-                  </div>
-                  <hr>
-                  {{-- /Content --}}
                   @endforeach
                   @else
                   <div class="alert alert-warning" role="alert">
@@ -952,9 +952,52 @@ background:#eee;
                               </style>                                      
                                                 
 <script>
-  $('#exampleModalLong').click(function(){
-    .modal('show')
-  });
+              $(document).on('click','#delete_post',function(e){
+							e.preventDefault();
+							// var comment_input = $('#comment_input').val();        
+							var formData = {
+								 post_id : $(this).data("post_id"),
+								_token: "{{ csrf_token() }}",               
+								dataType: 'json', 
+								contentType:'application/json',
+						};     
+						var post_id = $(this).data("post_id");
+						var urlDeletePost = '{{route('post.delete',':post_id')}}';
+								$.ajax({ 
+									type : 'DELETE',
+									url : urlDeletePost,
+									data: formData,
+									success:function(data){
+									document.getElementById(`post/${post_id}`).style.display = "none";
+						},
+									error:function(reject){
+						
+									}
+								})
+							});
+              $(document).on('click','#delete_quiz',function(e){
+							e.preventDefault();
+							// var comment_input = $('#comment_input').val();        
+							var formData = {
+								 quiz_id : $(this).data("post_id"),
+								_token: "{{ csrf_token() }}",               
+								dataType: 'json', 
+								contentType:'application/json',
+						};     
+						var quiz_id = $(this).data("post_id");
+						var urlDeletePost = '{{route('quiz.delete',':quiz_id')}}';
+								$.ajax({ 
+									type : 'DELETE',
+									url : urlDeletePost,
+									data: formData,
+									success:function(data){
+									document.getElementById(quiz_id).style.display = "none";
+						},
+									error:function(reject){
+						
+									}
+								})
+							});
     //open comment input
 //      $(document).ready(function() {
 //         // Hide menu once we know its width

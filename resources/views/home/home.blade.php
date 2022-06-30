@@ -25,6 +25,8 @@
 						  </div>
 							@else
 							@foreach ($quizzes as $quiz)
+					@if($quiz->questions()->count() > 0)
+						
 							<div class="panel" style="margin:15px;border-radius:20px">
 							{{-- <div class="pull-left" style="margin-right: 20px">
 								@if ($quiz->image != null)
@@ -60,7 +62,9 @@
 										{{$quiz->explanation}}
 									</div>
 									<div class="g-mb-15" style="margin: 15px">
+										@if ($quiz->end_time != null)
 										Quiz End At : {{$quiz->end_time}}
+										@endif
 									</div>
 								  </div>
 								  {{-- <div class="panel-footer">
@@ -70,12 +74,11 @@
 								  </div> --}}
 								</a>
 							</div>
-
 							<a href="{{route('quiz.catch',['quiz_id'=>$quiz->id,'quiz'=>$quiz->slug])}}" class="btn btn-primary" onclick=" return confirm('Quiz has will start , Are you ready ');">Catch</a>
 						  </div>
 
 							  {{-- New Style --}}
-
+						@endif
 							  @endforeach
 							  
 							  <style>

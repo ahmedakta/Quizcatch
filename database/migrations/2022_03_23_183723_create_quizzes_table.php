@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->nullable();
             $table->longText('explanation')->nullable();
-            $table->date('end_time');
+            $table->dateTime('end_time')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

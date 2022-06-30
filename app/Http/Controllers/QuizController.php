@@ -139,12 +139,16 @@ class QuizController extends Controller
         if($quiz ==null){
             return redirect()->back();
         }
+        if($quiz->questions()->count() == 0){
+            return redirect()->back();
+        }
         // dd($quiz);
         // $questions = $quiz->questions()->with(['options'=>function($query){
         //     $query->select('option_text','iscorrect');
         // }])->get();
         // dd($quiz->questions()->get());
         $questions = $quiz->questions()->with(['options'])->get();
+        // dd($quiz->questions()->count());
         return view('home.quizzes.quiz',compact('questions'));
         // dd($questions);
     }
@@ -252,18 +256,23 @@ class QuizController extends Controller
     }
 
 
-    public function destroy(Quiz $quiz)
+    public function destroy(Request $request)
     {
         // dd('quiz');
-        $quiz = Quiz::findOrFail($quiz->id);
+        // $quiz = Quiz::findOrFail($quiz->id);
+        // // dd($quiz->title);
+        // if($quiz->user_id == Auth::user()->id){
+        //     $quizDeleted = $quiz->Delete();
+        //     if ($quizDeleted) {
+        //         return back()->with('message','deleted');
+        //     }
+        // }else{
+        //     return back()->with('message', 'Seems to have gotten a problem');
+        // }
+        $quiz = Quiz::find($request->quiz_id);
         // dd($quiz->title);
         if($quiz->user_id == Auth::user()->id){
-            $quizDeleted = $quiz->Delete();
-            if ($quizDeleted) {
-                return back()->with('message','deleted');
-            }
-        }else{
-            return back()->with('message', 'Seems to have gotten a problem');
+                $quiz->Delete();
         }
     }
 }

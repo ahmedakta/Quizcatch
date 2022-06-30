@@ -24,9 +24,11 @@
                 @if ($item->image != null)
                   <img class="center card-img-top" src="{{URL::asset($item->image)}}" alt="Card image cap" style="display: block;  max-width:70%; height:540px; margin:auto; ">
                 @endif
-                  <pre>
- {{$item->title}} ?
-                  </pre>
+                <div>
+                      <pre>
+{{$item->title}} ?
+                      </pre>
+                </div>
              </div><!--.panel-heading-->
 
            <form action="{{route('quiz.submit',['quiz_id'=>$item->quiz_id])}}" method="POST">

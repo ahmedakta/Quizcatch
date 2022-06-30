@@ -13,7 +13,12 @@
         <div class="row">
           <div class="col-md-8">
             <div class="media g-mb-30 media-comment">
-              <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">        
+              <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">  
+                @if ($item->questions()->count()==0)
+                <div class="alert alert-warning" role="alert">
+                  Add some questions for the quiz to be active!
+                </div>
+                @endif      
                 <div class="pull-left">
                   @if ($item->image != null)
                       <img class="card-img-top" src="{{URL::asset($item->image)}}" style="height: 130px; width:150px; margin:10px">
