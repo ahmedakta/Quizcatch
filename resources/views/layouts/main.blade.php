@@ -9,10 +9,10 @@
         <link rel="shortcut icon" href="{{ asset('wh2.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('wh2.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
-        <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-        <meta name="author" content="FreeHTML5.co" />
-        {{--  --}}
+        <meta name="description" >
+        <meta name="keywords"  />
+        <meta name="author"  />
+
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Scripts -->
@@ -56,6 +56,7 @@
 
         <link  type="text/css" href="{{asset('css/tabe.css')}}" rel="stylesheet">
         <link  type="text/css" href="{{asset('css/post.css')}}" rel="stylesheet">
+        @livewireStyles
         </head>
 <body>
 	<div class="fh5co-loader"></div>
@@ -104,7 +105,6 @@
 						</ul>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	</nav>
@@ -169,6 +169,26 @@
                               aria-controls="list-home"
                               ><i class="fa fa-question" aria-hidden="true"></i>  Quizzes</a
                             >
+                            @if ($key==0 || $key == 30)
+                            <a
+                              class="list-group-item list-group-item-action tab-pane"
+                              id="list-home-list"
+                              data-mdb-toggle="list"
+                              href="#"
+                              role="tab"
+                              aria-controls="list-home"
+                              ><i class="fa fa-gamepad"></i>  Game</a
+                            >
+                            <a
+                              class="list-group-item list-group-item-action tab-pane {{$key == 30 ? 'active' : ''}}"
+                              id="list-home-list"
+                              data-mdb-toggle="list"
+                              href="{{route('class.index')}}"
+                              role="tab"
+                              aria-controls="list-home"
+                              ><i class="fa fa-users"></i>  Class</a
+                            >
+                            @endif
                             <a
                               class="list-group-item list-group-item-action tab-pane {{ $key==1 ? 'active' : ''}}"
                               id="list-profile-list"
@@ -281,6 +301,20 @@
 				{{-- end sidebar --}}
 			</div>
 		</div>
+    {{--  Start Right Side Nav --}}
+    {{-- <div class="list-group" id="list-tab" role="tablist" style="float: right">
+        <a
+                              class="list-group-item list-group-item-action tab-pane {{ $key==0 ? 'active' : ''}}"
+                              id="list-home-list"
+                              data-mdb-toggle="list"
+                              href="{{route('home')}}"
+                              role="tab"
+                              aria-controls="list-home"
+                              ><i class="fa fa-question" aria-hidden="true"></i>  Quizzes</a
+                            >
+    </div> --}}
+
+    {{-- End Right Side Nav --}}
 		<div class="col-md-9" id="contentCol">
             <div class="profile-content">
                 <div class="row ">
@@ -297,6 +331,20 @@
                 <div class="input-group pull-left">
                   <input type="text" name="search" class="form-control" placeholder="Search"  style=" margin : 15px" value="{{request('search') }}" />
                 </form>
+              </div>
+              {{-- start show Page --}}
+             
+              {{-- end Show page --}}
+							<ul class="nav nav-pills">
+						
+							</ul>
+					</div>
+          @elseif($key ==30)
+          <div class="panel" style="margin-left:15px">
+             <div style="padding-top: 10px">
+							<a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('class.create')}}">Create Class</a>
+             </div>
+              <div class="input-group pull-left">
               </div>
               {{-- start show Page --}}
              
@@ -359,6 +407,7 @@
 		</div>
 	</div>
 </div> 
+@livewireScripts
 </body>
 <section class="footer">
     <footer id="fh5co-footer" role="contentinfo">
@@ -371,9 +420,7 @@
                     <p>
                         <ul class="fh5co-social-icons">
                             <li><a href="#"><i class="icon-twitter"></i></a></li>
-                            <li><a href="#"><i class="icon-facebook"></i></a></li>
                             <li><a href="#"><i class="icon-linkedin"></i></a></li>
-                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
                         </ul>
                     </p>
                 </div>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image')->default('media/quiz.jpg');
             $table->string('title');
             $table->string('slug')->nullable();
+            $table->double('rating')->nullable();
             $table->longText('explanation')->nullable();
             $table->dateTime('end_time')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

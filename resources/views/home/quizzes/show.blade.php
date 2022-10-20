@@ -20,6 +20,21 @@
         {{$quiz->result()->count()}} Catch count
 
         </div>
+        <h3>
+            Ratings
+        </h3>
+        <div id="ratings">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+        </div>
+        <style>
+            .checked {
+              color: orange;
+            }
+            </style>
         @if ($quiz->end_time != null)    
         <h3>
             stopped at

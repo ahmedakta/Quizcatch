@@ -62,28 +62,30 @@
 					</thead>
 					<tbody>
 						@foreach ($posts as $post)
-					  <tr id='{{$post->id}}'>
-						<th scope="row">{{$count++}}</th>
-						<td>{{$post->content}}</td>
-                        <td>
-                            @if ($post->image != null)
-                            <img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
-                            @elseif($post->video != null)
-                            <div style="max-width:100%;height:auto;">
-                                <video width="100%" height="auto" controls>
-                                    <source src="{{URL::asset($post->video)}}" type="video/mp4" >
-                                </video>
-                            </div>
-                                {{-- @if ($errors->has('video'))
-                                    {{$errors->first('video')}}
-                                @endif --}}
-                            @endif
-                        </td> 
-						<form>
-							@csrf
-							<td style="width: 20px"><a class="btn btn-danger" id="delete_post" data-post_id="{{$post->id}}" href="{{route('admin.delete.post',$post)}}">delete</a></td>
-						</form>
-					  </tr>
+						@if ($post->private !=1)	
+						<tr id='{{$post->id}}'>
+						  <th scope="row">{{$count++}}</th>
+						  <td>{{$post->content}}</td>
+						  <td>
+							  @if ($post->image != null)
+							  <img class="media-body card-img-top" src="{{URL::asset($post->image)}}" alt="Card image cap"  style="max-width:100%;height:auto; margin-bottom:10px">
+							  @elseif($post->video != null)
+							  <div style="max-width:100%;height:auto;">
+								  <video width="100%" height="auto" controls>
+									  <source src="{{URL::asset($post->video)}}" type="video/mp4" >
+								  </video>
+							  </div>
+								  {{-- @if ($errors->has('video'))
+									  {{$errors->first('video')}}
+								  @endif --}}
+							  @endif
+						  </td> 
+						  <form>
+							  @csrf
+							  <td style="width: 20px"><a class="btn btn-danger" id="delete_post" data-post_id="{{$post->id}}" href="{{route('admin.delete.post',$post)}}">delete</a></td>
+						  </form>
+						</tr>
+						@endif
 					  @endforeach
 					</tbody>
 				  </table>

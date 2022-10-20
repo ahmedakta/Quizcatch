@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class isAdminMiddleware
 {
-    /**
+    /** Admin
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request

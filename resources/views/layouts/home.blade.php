@@ -9,9 +9,9 @@
         <link rel="shortcut icon" href="{{ asset('wh2.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('wh2.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
-        <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-        <meta name="author" content="FreeHTML5.co" />
+        <meta name="description" />
+        <meta name="keywords"  />
+        <meta name="author"/>
         {{--  --}}
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -73,7 +73,7 @@
         <!--[if lt IE 9]>
         <script src="js/respond.min.js"></script>
         <![endif]-->
-    
+        @livewireStyles
         </head>
 <body>
     {{-- <style>
@@ -159,6 +159,7 @@
     <main class="py-4">
         @yield('home')
     </main>
+    @livewireScripts
 </body>
 <section class="footer">
     <footer id="fh5co-footer" role="contentinfo">
@@ -171,9 +172,7 @@
                     <p>
                         <ul class="fh5co-social-icons">
                             <li><a href="#"><i class="icon-twitter"></i></a></li>
-                            <li><a href="#"><i class="icon-facebook"></i></a></li>
                             <li><a href="#"><i class="icon-linkedin"></i></a></li>
-                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
                         </ul>
                     </p>
                 </div>

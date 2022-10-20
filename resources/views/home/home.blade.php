@@ -75,6 +75,7 @@
 								</a>
 							</div>
 							<a href="{{route('quiz.catch',['quiz_id'=>$quiz->id,'quiz'=>$quiz->slug])}}" class="btn btn-primary" onclick=" return confirm('Quiz has will start , Are you ready ');">Catch</a>
+							<a href="#" class="btn btn-info"><i class="fa fa-star"></i> 4.5</a>
 						  </div>
 
 							  {{-- New Style --}}

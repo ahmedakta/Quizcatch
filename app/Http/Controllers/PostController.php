@@ -49,6 +49,21 @@ class PostController extends Controller
         $profile =Profile::where('user_id',$id)->first();
         return view('home.private-post',compact('posts','key','active_tabs','user','profile','quiz_count'));
     }
+    public function livewire()
+    {
+        $key = 4;
+        $active_tabs = 1;
+        
+        $id = Auth::user()->id;
+        // $user = User::find($id);
+        $user = User::findOrFail($id);
+        // $posts = $user->posts()->where('private','=',Post::PRIVATE_POST)->get()->sortByDesc('created_at');
+        $posts = $user->posts()->with('likes')->latest()->where('private','=',Post::PRIVATE_POST)->get(); 
+        // dd($posts);
+        $quiz_count =Quiz::where('user_id',$id)->get()->count();
+        $profile =Profile::where('user_id',$id)->first();
+        return view('home.livewire',compact('posts','key','active_tabs','user','profile','quiz_count'));
+    }
     public function saved_posts()
     {
         $key = 5;

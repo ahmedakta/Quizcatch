@@ -14,6 +14,7 @@ class Quiz extends Model
         'image',
         'title',
         'slug',
+        'rating',
         'explanation',
         'end_time',
     ];
@@ -45,5 +46,9 @@ class Quiz extends Model
     public function hasQuestions()
     {
         return $this->hasMany(Question::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany('App\Models\QuizComment');
     }
 }

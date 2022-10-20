@@ -10,6 +10,7 @@ use App\Models\Quiz;
 use App\Models\Result;
 use App\Models\Question;
 use App\Models\Option;
+use App\Models\QuizComment;
 use App\Models\Tournament;
 class QuizController extends Controller
 {
@@ -234,7 +235,7 @@ class QuizController extends Controller
 
         if($request->has('image')){
             $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg',
         ]);
             $photo = $request->image;
             $newPhoto = time().$photo->getClientOriginalName();
@@ -243,7 +244,9 @@ class QuizController extends Controller
             $quiz->title = $request->title;
             $quiz->image = 'uploads/quizzes/images/'.$newPhoto;
             $quiz->explanation = $request->explanation;
-            $quiz->end_time = $request->end_time;
+            if ($request->end_time != null) {
+                $quiz->end_time = $request->end_time;
+            }
             $quiz->save();
         }else{
             $quiz->title = $request->title;
@@ -300,8 +303,49 @@ class QuizController extends Controller
      
         // dd($quiz_id);
     }
-
-
+    public function game()
+    {
+            $id = Auth::user()->id;
+            $user = User::find($id);
+            $key = 0;
+            $active_tabs = null;
+            $quiz_count = Quiz::where('user_id',$id)->get()->count();
+            $quizzes = Quiz::where('user_id',$id)->with('result')->get();
+            $profile =Profile::where('user_id',$id)->first();
+    
+            // $results = Result::results('user_id',$id)->get()->all();
+            $results = Result::results($id);
+            // $dneme = Result::find(1)->get();
+            return view('home.quizzes.game.game',compact('key','active_tabs','profile','user','quiz_count','quizzes','results'));
+     
+        // dd($quiz_id);
+    }
+    public function quizcomment(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string|min:1|max:80',
+        ]);
+        $post_id  = $request->post_id;
+        $quiz_comment = QuizComment::create([
+            'user_id'=>Auth::user()->id,
+            'post_id'=>$post_id,
+            'content'=>$request->content,
+        ]);
+        $quiz_comment->save();
+        return null;
+    }
+    public function quizcomments(Quiz $quiz)
+    {
+        $key = 0;
+        $active_tabs = 0;
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $quiz_count =Quiz::where('user_id',$id)->get()->count();
+        $profile =Profile::where('user_id',$id)->first();
+        $quiz = Quiz::find($quiz->id);
+        $comments = Quiz::find($quiz->id)->comments()->get();
+        return view('home.quizzes.comments',compact('quiz','key','active_tabs','user','profile','quiz_count','comments'));
+    }
     public function destroy(Request $request)
     {
         // dd('quiz');

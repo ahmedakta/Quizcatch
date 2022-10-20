@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,13 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function(){
     Auth::routes();
 });
 
-
+//classes
+Route::get('class/create', [App\Http\Controllers\UsersClassController::class, 'create'])->name('class.create');
+Route::get('classes', [App\Http\Controllers\UsersClassController::class, 'index'])->name('class.index');
+Route::get('/join/{class:slug}', [App\Http\Controllers\UsersClassController::class, 'join'])->name('class.join');
+Route::get('/class/{class:slug}', [App\Http\Controllers\UsersClassController::class, 'show'])->name('class.show');
+Route::post('/join/private/{class:slug}', [App\Http\Controllers\UsersClassController::class, 'join'])->name('private.class.join');
+Route::post('class/store', [App\Http\Controllers\UsersClassController::class, 'store'])->name('class.store');
 
 Route::group(['middleware' => 'PreventBackHistory'],function(){
         Route::get('/', function () {
@@ -100,9 +107,7 @@ Route::group(['middleware' => 'PreventBackHistory'],function(){
         Route::post('{user}/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
         //contact
 
-
+        //class 
         // user following system
         Route::get('{user}/followings', [App\Http\Controllers\UserFollowingsController::class,'index'])->name('user.followings');
 });
-
-

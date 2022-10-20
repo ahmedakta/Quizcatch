@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class isUserMiddleware
 {
-    /**
+    /** user
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
