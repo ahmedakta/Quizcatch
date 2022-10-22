@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id')->unsigned();
-            $table->unsignedBigInteger('creator_id')->unsigned();
+            $table->unsignedInteger('user_id')->unsigned();
+            $table->unsignedInteger('creator_id')->unsigned();
             $table->string('title');
             $table->longText('description')->nullable();
-            $table->integer('quiz_count')->default(0);
+            $table->integer('quiz_count')->default(0); //this should to limited create quiz for tournament
+            $table->integer('status')->default(1); // his created with active status
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('status');
             $table->timestamps();
         });
     }

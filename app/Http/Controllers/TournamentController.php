@@ -17,6 +17,7 @@ class TournamentController extends Controller
 
     public function index()
     {
+        // dd(1);
         // dd($user);
         $id = Auth::user()->id;
         $user = User::find($id);
@@ -26,6 +27,11 @@ class TournamentController extends Controller
         $key = 2;
         $active_tabs = null;
         $tournaments = Tournament::all();
-        return view('home.tournament',compact('tournaments','key','active_tabs','user','quizzes','profile','quiz_count'));
+        return view('home.tournaments.index',compact('tournaments','key','active_tabs','user','quizzes','profile','quiz_count'));
+    }
+    // make tournamnet
+    public function create()
+    {
+        return view('home.tournaments.create');
     }
 }

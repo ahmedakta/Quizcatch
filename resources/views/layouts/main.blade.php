@@ -222,7 +222,7 @@
                               class="list-group-item list-group-item-action tab-pane {{ $key==2 ? 'active' : ''}}"
                               id="list-messages-list"
                               data-mdb-toggle="list"
-                              href="{{route('home.tournaments')}}"
+                              href="{{route('tournaments.index')}}"
                               role="tab"
                               aria-controls="list-messages"
                               ><i class="fa fa-trophy" aria-hidden="true"></i> Tournaments</a
@@ -390,6 +390,10 @@
 					</div>
           @elseif($key == 2)
           <div class="panel" style="margin-left:15px">
+            <div style="padding-top: 10px">
+                <a type="btn btn-primary" class="btn btn-info pull-right" href="{{route('tournament.create')}}"><i class="fa fa-trophy" aria-hidden="true"></i> Make</a>
+             </div>
+
 							<ul class="nav nav-pills">
                   <li>  Tournaments</li>
 							</ul>

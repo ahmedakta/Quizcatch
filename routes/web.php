@@ -79,7 +79,8 @@ Route::group(['middleware' => 'PreventBackHistory'],function(){
         // POSTS LIKE
         Route::post('like', [App\Http\Controllers\PostController::class, 'postLikePost'])->name('post.like');
         // Tournmanent
-        Route::get('tournaments', [App\Http\Controllers\TournamentController::class, 'index'])->name('home.tournaments');
+        Route::get('tournaments', [App\Http\Controllers\TournamentController::class, 'index'])->name('tournaments.index');
+        Route::get('make/tournament', [App\Http\Controllers\TournamentController::class, 'create'])->name('tournament.create');
         // Quiz
         Route::get('quiz/create', [App\Http\Controllers\QuizController::class, 'create'])->name('quiz.create');
         Route::post('quiz/submit', [App\Http\Controllers\QuizController::class, 'submitQuiz'])->name('quiz.submit');
