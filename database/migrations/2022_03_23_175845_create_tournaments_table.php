@@ -14,7 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tournaments', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->unsignedBigInteger('user_id')->unsigned();
+            $table->unsignedBigInteger('creator_id')->unsigned();
+            $table->string('title');
+            $table->longText('description')->nullable();
+            $table->integer('quiz_count')->default(0);
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('status');
             $table->timestamps();
         });
     }

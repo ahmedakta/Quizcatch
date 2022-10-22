@@ -1,5 +1,6 @@
 @extends('layouts.home')
 @section('home')
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 @if (count($questions)>0)
 @foreach ($questions as $item)
@@ -57,12 +58,16 @@
               </li>
              </ul>
              @if ($item->hint!=null)
-             Hint : {{$item->hint}}
+                  Hint : {{$item->hint}}
              @endif
                   </div>
           </div>
           </div>
+          {{-- Rate The Quiz --}}
           @endforeach
+          <li  class = "list-group-item"> 
+           Rating System
+          </li>
           <li class = "list-group-item">
             <button id="submitQuiz" type="submit" class="btn btn-primary submit">Submit</button>
           </li>
@@ -79,7 +84,6 @@
   clear: both;
   overflow: hidden;
 }
-
 .panel .panel-heading {
     color: #fff;
     background-color: #f95959;
