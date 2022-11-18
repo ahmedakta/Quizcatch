@@ -75,6 +75,15 @@
           </div>
         </div>
     </div>
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
 
     <div class="row">
         <div class="col-md-4">
@@ -86,7 +95,6 @@
               @if (Auth::user()->id == $user->id)
               <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#exampleModalLong">
                 <i class="fa fa-pencil"></i> Edit Profile
-               
               </button>
                 @endif
 
@@ -274,25 +282,28 @@
           <form action="{{route('profile.update',$user)}}" method="POST" enctype="multipart/form-data">
             @csrf
             <img src="{{asset($profile->photo)}}" style="width: 100px;" alt="">
-            <input type="file" accept="image/*" name="image" style="margin-bottom: 10px">
-            <h4>Name :  <input name="name" type="text" value="{{$user->name}}" required></h4>
+            <input type="file" class="form-control" accept="image/*" name="image" style="margin-bottom: 10px">
+            <h4>Name :  <input class="form-control" name="name" type="text" value="{{$user->name}}" required></h4>
           <h4>Gender : <input type="radio" {{($profile->gender == 'Female') ? 'checked' :''}}  value="Female" name="gender"> Female
             <input type="radio" {{($profile->gender == 'Male') ? 'checked' :''}}  value="Male" name="gender"> Male </h4>
 
-          <h4>About :  <textarea name="about" id="" cols="30" rows="2">{{$user->profile->about}}</textarea></h4>
-          <h4>Birth Date : <input class="m-20" type="date" value="{{$profile->date_of_birth}}" name="date_of_birth"></h4>
-          <h4>Email : <input class="m-20" type="email" value="{{$user->email}}" name="email" required></h4>
-          <h4>Phone Number : <input type="tel" id="phone" name="phone"
+          <h4>About :  <textarea class="form-control" name="about" id="" cols="30" rows="2">{{$user->profile->about}}</textarea></h4>
+          <h4>Birth Date : <input class="form-control" class="m-20" type="date" value="{{$profile->date_of_birth}}" name="date_of_birth"></h4>
+          <h4>Email : <input class="form-control" class="m-20" type="email" value="{{$user->email}}" name="email" required></h4>
+          <h4>Phone Number : <input  class="form-control" type="tel" id="phone" name="phone"
        value="{{$profile->phone_number}}"
        >
       </h4>
           <hr class="short br-lighter">
           <h6>Education <i class="fa fa-graduation-cap"></i> </h6>
 
-          <h4><textarea name="education" id="" cols="30" rows="2">{{$profile->education}}</textarea></h4>
+          <h4><textarea name="education" class="form-control" id="" cols="30" rows="2">{{$profile->education}}</textarea></h4>
           <hr class="short br-lighter"> 
+          <button type="button" class="btn btn-info" data-dismiss="modal" data-toggle="modal" data-target="#resetPassword">
+            Reset Password
+         </button>
         </div>
-
+       
 {{-- 
         <label for="About" style="margin: 10px">About </label> <textarea class="m-20" type="text">{{$user->profile->about}}</textarea><br>
         <label class="labels" style="margin: 10px">Gender</label>
@@ -307,6 +318,55 @@
         <label for="About" style="margin: 10px">Email </label> <input class="m-20" type="email" value="{{$user->email}}"> <br>
         <label for="About" style="margin: 10px">Education </label> <input class="m-20" type="text" value="{{$user->profile->education}}"> <br> --}}
       </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin: 15px">Close</button>
+        <button class="btn btn-primary pull-right" type="submit" style="margin: 15px">Save Changes</button>
+      </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- reset password popup --}}
+<div class="modal fade" id="resetPassword" tabindex="-1" role="dialog" aria-labelledby="resetPassword" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Reset Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body pb5">
+          <form action="{{route('update-password')}}" method="POST" >
+            @csrf
+            @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+            <h4>Old Password</h4>
+            <input type="password" class="form-control" name="old_password" placeholder="Old Password" style="margin-bottom: 10px">
+            @error('old_password')
+              <span class="text-danger">{{ $message }}</span>
+            @enderror
+            <h4>New Password</h4>
+            <input type="password" class="form-control" name="new_password" placeholder="New Password" style="margin-bottom: 10px">
+            @error('new_password')
+                      <span class="text-danger">{{ $message }}</span>
+            @enderror
+            <input name="new_password_confirmation" type="password" class="form-control" id="confirmNewPasswordInput"
+                  placeholder="Confirm New Password">
+        </div>
+      </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin: 15px">Close</button>
         <button class="btn btn-primary pull-right" type="submit" style="margin: 15px">Save Changes</button>

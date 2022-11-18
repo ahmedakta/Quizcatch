@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Quiz;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Console\Scheduling\Schedule;
 
 class deleteQuizzes extends Command
 {
@@ -21,7 +22,10 @@ class deleteQuizzes extends Command
      * @var string
      */
     protected $description = 'Delete quizzes when end time has been comed';
-
+    protected function schedule(Schedule $shedule)
+    {
+        $shedule->command('delete:quiizes')->everyMinute();
+    }
     /**
      * Execute the console command.
      *

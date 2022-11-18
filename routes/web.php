@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,9 @@ use App\Mail\WelcomeMail;
 //     Auth::routes();
 
 // });
+Route::get('/storage', function() {
+    Artisan::call('storage:link');
+});
 Route::group(['prefix'=>'admin','middleware'=>['isAdmin','auth','PreventBackHistory']],function(){
     Route::get('dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     // delete routes
@@ -101,13 +105,16 @@ Route::group(['middleware' => 'PreventBackHistory'],function(){
         Route::post('quiz/questions/store', [App\Http\Controllers\QuestionController::class, 'store'])->name('questions.store');
         //Messages
         Route::resource('photos', PhotoController::class);
-
+        //Reset Passwords
+        Route::get('/forgot-password', function () {
+            return view('auth.forgot-password');
+        })->middleware('guest')->name('password.request');
         Route::resource('messages', App\Http\Controllers\MessageController::class);
         //user
         Route::get('{user:user_name}', [App\Http\Controllers\ProfileController::class, 'index'])->name('user.profile');
         Route::post('{user}/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
         //contact
-
+        Route::post('/change-password', [App\Http\Controllers\AdminController::class, 'updatePassword'])->name('update-password');
         //class 
         // user following system
         Route::get('{user}/followings', [App\Http\Controllers\UserFollowingsController::class,'index'])->name('user.followings');

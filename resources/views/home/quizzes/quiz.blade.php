@@ -65,9 +65,6 @@
           </div>
           {{-- Rate The Quiz --}}
           @endforeach
-          <li  class = "list-group-item"> 
-           Rating System
-          </li>
           <li class = "list-group-item">
             <button id="submitQuiz" type="submit" class="btn btn-primary submit">Submit</button>
           </li>

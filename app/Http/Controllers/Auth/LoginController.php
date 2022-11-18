@@ -50,10 +50,11 @@ class LoginController extends Controller
 
     public function login(Request $request){
         $input = $request->all();
-        $this->validate($request,[
+        $validator = $this->validate($request,[
             'email' => 'required|email',
             'password' => 'required',
-        ]);
+        ]);  
+
         if(Auth()->attempt(array('email'=>$input['email'],'password'=>$input['password']))){
             if (Auth()->user()->role == 1) {
                 return redirect()->route('admin.dashboard');
@@ -62,7 +63,7 @@ class LoginController extends Controller
                 return redirect()->route('home');
             }
         }else{
-            return redirect()->route('login')->with('error','Email and password are wrong');
+            return redirect()->route('login')->with('error','Your email and password do not match');
         }
 
     }

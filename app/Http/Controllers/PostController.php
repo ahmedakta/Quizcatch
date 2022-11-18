@@ -106,7 +106,7 @@ class PostController extends Controller
             $post->save();
         }else if($request->has('video')){
             $request->validate([
-                'video' => 'required | mimes:mp4',
+                'video' => 'required | mimes:mp4|max:100',
             ]);
             $file= $request->file('video');
             $newVideo = time().$file->getClientOriginalName();
